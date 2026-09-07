@@ -48,6 +48,7 @@
         .btn-sign { background-color: #e65100; }
         .btn-preset { background-color: #4527a0; }
         .btn-excel { background-color: #1b5e20; }
+        .btn-material { background-color: #ef6c00; }
         .btn-save { background-color: #0277bd; }
         .btn-load { background-color: #6a1b9a; }
 
@@ -89,6 +90,7 @@
             width: 100%; height: 100%; border: none; background: transparent;
             font-size: 8px; font-family: inherit; text-align: center; text-align-last: center; cursor: pointer; outline: none;
             -webkit-appearance: none; -moz-appearance: none; appearance: none; padding: 0;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
         .cell-select option { font-size: 11px; background: #fff; color: #000; }
 
@@ -153,7 +155,7 @@
             background-color: rgba(245, 245, 245, 0.4);
             cursor: pointer; overflow: hidden;
         }
-        .photo-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .photo-slot img { width: 100%; height: 100%; object-fit: fill; display: block; }
         .photo-hint { font-size: 6.5px; color: #777; text-align: center; line-height: 1.15; pointer-events: none; font-weight: bold; }
         .pf-zone { position:absolute; cursor:pointer; }
         .pf-zone.selected::after {
@@ -242,6 +244,7 @@
 
     <div class="action-bar">
         <button class="btn btn-excel" onclick="openExcelModal()">📊 엑셀로 현장 불러오기</button>
+        <button class="btn btn-material" onclick="openMaterialUploadModal()">📚 배포자료 목록 갱신</button>
         <button class="btn btn-save" onclick="openSaveModal()">☁️ 보고서 저장</button>
         <button class="btn btn-load" onclick="openLoadModal()">📂 지난 보고서 불러오기</button>
         <button class="btn btn-sign" onclick="openSignModal('manager')">✍️ 현장소장 서명</button>
@@ -301,7 +304,7 @@
             <div id="guide_org" class="cell cell-bold" style="left: 104px; top: 409px; width: 161px; height: 29px; font-size: 8.5px;" contenteditable="true">주식회사한국건설안전공사기술원</div>
             <div id="guide_date" class="cell" style="left: 337px; top: 409px; width: 161px; height: 29px; font-size: 8.5px;" contenteditable="true">2026 년 8월 21일</div>
 
-            <div id="guide_category" class="cell cell-bold" style="left: 104px; top: 440px; width: 161px; height: 29px; font-size: 8px;" contenteditable="true">전기, 통신, 소방공사</div>
+            <div id="guide_category" class="cell cell-bold" style="left: 104px; top: 440px; width: 161px; height: 29px; font-size: 8px;" contenteditable="true">전기,통신,소방설비공사</div>
             <div id="current_progress" class="cell" style="left: 337px; top: 440px; width: 161px; height: 29px; font-size: 8.5px;" contenteditable="true">(&nbsp;&nbsp;25&nbsp;&nbsp;)%</div>
 
             <div id="guide_round" class="cell" style="left: 104px; top: 471px; width: 161px; height: 29px; font-size: 8px;" contenteditable="true">(&nbsp;&nbsp;5&nbsp;&nbsp;) 회차&nbsp;&nbsp;/&nbsp;&nbsp;총 (&nbsp;&nbsp;21&nbsp;&nbsp;) 회</div>
@@ -317,9 +320,9 @@
                 <span onclick="toggleCheck(this)" style="cursor:pointer; font-weight:bold;">☐</span> 불이행 &nbsp;/&nbsp; 
                 <span onclick="toggleCheck(this)" style="cursor:pointer; font-weight:bold;">☐</span> 기타
             </div>
-            <div class="cell" style="left: 337px; top: 503px; width: 161px; height: 29px; font-size: 8.5px; color: #002060; text-decoration: underline; font-weight: bold;">
-                <span id="inspector_tel"></span>
-            </div>
+           <div class="cell" style="left: 337px; top: 503px; width: 161px; height: 29px; font-size: 8.5px; color: #002060; text-decoration: underline; font-weight: bold;">
+    <span id="inspector_tel" contenteditable="true">010-9217-3165</span>
+</div>
 
             <div class="cell cell-left" style="left: 104px; top: 534px; width: 394px; height: 48px; font-size: 7.8px; flex-direction: column; justify-content: center; line-height: 1.6;">
                 <div style="width: 100%; display: flex; justify-content: flex-start; align-items: center;">
@@ -763,59 +766,32 @@
             <div class="cell cell-left" contenteditable="true" style="left:171.2px; top:137.3px; width:232.1px; height:25.7px; font-size:6.5px; padding:2px 4px;"></div>
             <!-- 교육자료 행: "자료출처" 라벨은 배경에 있음 → 좌우 빈칸만 -->
             <div class="cell cell-left" contenteditable="true" style="left:171.2px; top:163px; width:124.8px; height:25.8px; font-size:6.5px; padding:2px 4px;"></div>
-            <div class="cell" style="left:360px; top:163px; width:43.3px; height:25.8px;">
-                <select class="cell-select" style="font-size:4.5px;">
-                    <option value="" selected></option>
-                    <option value="한국건설안전공사">한국건설안전공사</option>
-                    <option value="안전보건공단">안전보건공단</option>
-                    <option value="고용노동부">고용노동부</option>
-                    <option value="기타">기타</option>
-                </select>
+            <div class="cell" style="left:360px; top:163px; width:43.3px; height:25.8px; align-items:flex-end; padding-bottom:2px;">
+                <div class="source-picker-btn" id="edu_material_source" onclick="openSourcePicker('edu_material_source')" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:4px; cursor:pointer; white-space:normal; line-height:1.05; text-align:center; word-break:break-all;"></div>
             </div>
 
             <!-- 자료배포 4행: 라벨 칸에 출처 드롭다운 추가 -->
             <div class="cell" style="left:102.4px; top:188.8px; width:68.8px; height:20.45px;">
-                <select class="cell-select" style="font-size:5.5px;">
-                    <option value="" selected></option>
-                    <option value="한국건설안전공사">한국건설안전공사</option>
-                    <option value="안전보건공단">안전보건공단</option>
-                    <option value="고용노동부">고용노동부</option>
-                    <option value="기타">기타</option>
-                </select>
+                <div class="source-picker-btn" id="dist_source_1" onclick="openSourcePicker('dist_source_1')" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:6.5px; cursor:pointer; white-space:normal; line-height:1.15; text-align:center; word-break:break-all;"></div>
             </div>
             <div class="cell" style="left:102.4px; top:209.25px; width:68.8px; height:20.75px;">
-                <select class="cell-select" style="font-size:5.5px;">
-                    <option value="" selected></option>
-                    <option value="한국건설안전공사">한국건설안전공사</option>
-                    <option value="안전보건공단">안전보건공단</option>
-                    <option value="고용노동부">고용노동부</option>
-                    <option value="기타">기타</option>
-                </select>
+                <div class="source-picker-btn" id="dist_source_2" onclick="openSourcePicker('dist_source_2')" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:6.5px; cursor:pointer; white-space:normal; line-height:1.15; text-align:center; word-break:break-all;"></div>
             </div>
             <div class="cell" style="left:102.4px; top:230px; width:68.8px; height:20.6px;">
-                <select class="cell-select" style="font-size:5.5px;">
-                    <option value="" selected></option>
-                    <option value="한국건설안전공사">한국건설안전공사</option>
-                    <option value="안전보건공단">안전보건공단</option>
-                    <option value="고용노동부">고용노동부</option>
-                    <option value="기타">기타</option>
-                </select>
+                <div class="source-picker-btn" id="dist_source_3" onclick="openSourcePicker('dist_source_3')" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:6.5px; cursor:pointer; white-space:normal; line-height:1.15; text-align:center; word-break:break-all;"></div>
             </div>
             <div class="cell" style="left:102.4px; top:250.6px; width:68.8px; height:20.7px;">
-                <select class="cell-select" style="font-size:5.5px;">
-                    <option value="" selected></option>
-                    <option value="한국건설안전공사">한국건설안전공사</option>
-                    <option value="안전보건공단">안전보건공단</option>
-                    <option value="고용노동부">고용노동부</option>
-                    <option value="기타">기타</option>
-                </select>
+                <div class="source-picker-btn" id="dist_source_4" onclick="openSourcePicker('dist_source_4')" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:6.5px; cursor:pointer; white-space:normal; line-height:1.15; text-align:center; word-break:break-all;"></div>
             </div>
 
             <!-- 자료배포 4행 (내용칸) -->
-            <div class="cell cell-left" contenteditable="true" style="left:171.2px; top:188.8px; width:232.1px; height:20.45px; font-size:6.5px; padding:2px 4px;"></div>
-            <div class="cell cell-left" contenteditable="true" style="left:171.2px; top:209.25px; width:232.1px; height:20.75px; font-size:6.5px; padding:2px 4px;"></div>
-            <div class="cell cell-left" contenteditable="true" style="left:171.2px; top:230px; width:232.1px; height:20.6px; font-size:6.5px; padding:2px 4px;"></div>
-            <div class="cell cell-left" contenteditable="true" style="left:171.2px; top:250.6px; width:232.1px; height:20.7px; font-size:6.5px; padding:2px 4px;"></div>
+            <div class="cell cell-left" id="dist_content_1" contenteditable="true" style="left:171.2px; top:188.8px; width:232.1px; height:20.45px; font-size:6.5px; padding:2px 4px;"></div>
+            <div class="cell cell-left" id="dist_content_2" contenteditable="true" style="left:171.2px; top:209.25px; width:232.1px; height:20.75px; font-size:6.5px; padding:2px 4px;"></div>
+            <div class="cell cell-left" id="dist_content_3" contenteditable="true" style="left:171.2px; top:230px; width:232.1px; height:20.6px; font-size:6.5px; padding:2px 4px;"></div>
+            <div class="cell cell-left" id="dist_content_4" contenteditable="true" style="left:171.2px; top:250.6px; width:232.1px; height:20.7px; font-size:6.5px; padding:2px 4px;"></div>
+
+            <!-- 세트선택 버튼 -->
+            <button onclick="openMaterialSetModal()" class="no-print" style="position:absolute; left:33.7px; top:270px; width:70px; height:14px; font-size:6.5px; background:#ef6c00; color:#fff; border:none; border-radius:6px; cursor:pointer; z-index:20;">📦 세트선택</button>
 
             <!-- 교육지원+자료배포 통합 사진 1칸 -->
             <!-- 교육지원 사진 -->
@@ -947,10 +923,62 @@
                 <div id="siteListContainer" style="max-height:360px; overflow-y:auto;"></div>
             </div>
             <div id="excelStep3" style="display:none;">
-                <button class="back-btn" onclick="backToSiteList()">← 현장 목록으로</button>
+                <div style="display:flex; gap:8px; margin-bottom:10px;">
+                    <button class="back-btn" onclick="backToSiteList()" style="margin-bottom:0;">← 현장 목록으로</button>
+                    <button onclick="openAddRoundModal()" style="background:#c62828; color:#fff; border:none; border-radius:4px; padding:6px 12px; font-size:12px; cursor:pointer; font-weight:bold;">➕ 회차추가</button>
+                </div>
                 <div id="roundListContainer" style="max-height:360px; overflow-y:auto;"></div>
             </div>
             <div class="modal-btns"><button class="btn-modal-cancel" onclick="closeModal('excelModal')">닫기</button></div>
+        </div>
+    </div>
+
+    <!-- 회차 추가 모달 -->
+    <div id="addRoundModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-title">새 회차 추가</div>
+            <p style="font-size:11px; color:#777; margin-bottom:10px;">회차번호·날짜만 입력하시면, 나머지(회사명·주소·금액 등)는 직전 회차 내용을 그대로 복사해서 만들어요.</p>
+            <label style="font-size:12px; color:#333; display:block; margin-bottom:4px;">회차 번호</label>
+            <input type="number" id="newRoundNo" class="search-box" style="margin-bottom:10px;">
+            <label style="font-size:12px; color:#333; display:block; margin-bottom:4px;">기술지도일</label>
+            <input type="date" id="newRoundDate" class="search-box">
+            <div class="modal-btns">
+                <button class="btn-modal-cancel" onclick="closeModal('addRoundModal')">취소</button>
+                <button class="btn-modal-confirm" onclick="confirmAddRound()">추가하기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 배포자료 엑셀 업로드 모달 -->
+    <div id="materialUploadModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-title">배포자료 목록 갱신</div>
+            <p style="font-size:12px; color:#555; margin-bottom:10px;">세트명 / 자료출처 / 자료명 3개 열로 된 엑셀 파일을 선택하세요.<br>(같은 세트명끼리 자동으로 묶여요, 최대 4개까지만 반영돼요)</p>
+            <input type="file" id="materialFileInput" accept=".xlsx,.xls" onchange="handleMaterialExcelFile(event)">
+            <div id="materialCloudStatus" style="font-size:11px; color:#0277bd; margin-top:8px;"></div>
+            <div class="modal-btns"><button class="btn-modal-cancel" onclick="closeModal('materialUploadModal')">닫기</button></div>
+        </div>
+    </div>
+
+    <!-- 배포자료 세트 선택 모달 -->
+    <div id="materialSetModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-title">배포자료 세트 선택</div>
+            <div id="materialSetListContainer" style="max-height:360px; overflow-y:auto;"></div>
+            <div class="modal-btns"><button class="btn-modal-cancel" onclick="closeModal('materialSetModal')">닫기</button></div>
+        </div>
+    </div>
+
+    <!-- 자료출처 선택 팝업 (5개 칸 공용) -->
+    <div id="sourcePickerModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-title">자료출처 선택</div>
+            <div class="preset-item" onclick="selectSourceValue('한국건설안전공사')">한국건설안전공사</div>
+            <div class="preset-item" onclick="selectSourceValue('안전보건공단')">안전보건공단</div>
+            <div class="preset-item" onclick="selectSourceValue('고용노동부')">고용노동부</div>
+            <div class="preset-item" onclick="selectSourceValue('기타')">기타</div>
+            <div class="preset-item" onclick="selectSourceValue('')" style="color:#999;">(비우기)</div>
+            <div class="modal-btns"><button class="btn-modal-cancel" onclick="closeModal('sourcePickerModal')">닫기</button></div>
         </div>
     </div>
 
@@ -1482,6 +1510,103 @@
             document.getElementById('excelCloudStatus').innerText = '';
         }
 
+        // ===== 배포자료 세트 =====
+        let materialSets = {};
+
+        let currentSourceTarget = '';
+        function openSourcePicker(targetId) {
+            currentSourceTarget = targetId;
+            document.getElementById('sourcePickerModal').style.display = 'flex';
+        }
+        function selectSourceValue(value) {
+            const el = document.getElementById(currentSourceTarget);
+            if (el) el.innerText = value;
+            closeModal('sourcePickerModal');
+        }
+
+        function openMaterialUploadModal() {
+            document.getElementById('materialCloudStatus').innerText = '';
+            document.getElementById('materialUploadModal').style.display = 'flex';
+        }
+
+        function handleMaterialExcelFile(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = async function(ev) {
+                const data = new Uint8Array(ev.target.result);
+                const wb = XLSX.read(data, { type: 'array' });
+                const ws = wb.Sheets[wb.SheetNames[0]];
+                const rows = XLSX.utils.sheet_to_json(ws, { header: 1, raw: true, defval: '' }).slice(1).filter(r => r[0]);
+                const sets = {};
+                rows.forEach(r => {
+                    const setName = String(r[0]).trim();
+                    if (!setName) return;
+                    if (!sets[setName]) sets[setName] = [];
+                    if (sets[setName].length < 4) sets[setName].push({ source: String(r[1] || '').trim(), name: String(r[2] || '').trim() });
+                });
+                materialSets = sets;
+                document.getElementById('materialCloudStatus').innerText = '☁️ 클라우드에 동기화 중...';
+                try {
+                    const { error } = await sb.from('material_sets').upsert({ id: 1, sets: materialSets, updated_at: new Date().toISOString() });
+                    document.getElementById('materialCloudStatus').innerText = error ? '⚠️ 동기화 실패 (이 기기에서는 계속 사용 가능)' : '✅ 완료! (' + Object.keys(materialSets).length + '개 세트, 다른 기기에서도 확인 가능)';
+                } catch (e2) {
+                    document.getElementById('materialCloudStatus').innerText = '⚠️ 동기화 실패 (이 기기에서는 계속 사용 가능)';
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        async function openMaterialSetModal() {
+            document.getElementById('materialSetModal').style.display = 'flex';
+            const container = document.getElementById('materialSetListContainer');
+            if (Object.keys(materialSets).length === 0) {
+                container.innerHTML = '<div style="padding:14px; color:#888;">불러오는 중...</div>';
+                try {
+                    const { data, error } = await sb.from('material_sets').select('sets').eq('id', 1).single();
+                    if (!error && data && data.sets) materialSets = data.sets;
+                } catch (e) { /* 무시 */ }
+            }
+            renderMaterialSetList();
+        }
+
+        function renderMaterialSetList() {
+            const container = document.getElementById('materialSetListContainer');
+            const names = Object.keys(materialSets);
+            if (names.length === 0) {
+                container.innerHTML = '<div style="padding:14px; color:#888; text-align:center;">등록된 배포자료 세트가 없습니다.<br>"📚 배포자료 목록 갱신"으로 먼저 엑셀을 올려주세요.</div>';
+                return;
+            }
+            container.innerHTML = names.map(name =>
+                `<div class="site-item" onclick="applyMaterialSet('${name.replace(/'/g, "\\'")}')"><b>${name}</b> <span style="color:#888; font-size:11px;">(자료 ${materialSets[name].length}개)</span></div>`
+            ).join('');
+        }
+
+        function applyMaterialSet(setName) {
+            const items = materialSets[setName] || [];
+            const sourceOptions = ['한국건설안전공사', '안전보건공단', '고용노동부', '기타'];
+            for (let i = 1; i <= 4; i++) {
+                const item = items[i - 1];
+                const srcEl = document.getElementById('dist_source_' + i);
+                const contentEl = document.getElementById('dist_content_' + i);
+                if (item) {
+                    const matched = sourceOptions.find(opt => item.source.includes(opt));
+                    if (srcEl) srcEl.innerText = matched || '';
+                    if (contentEl) contentEl.innerText = item.name;
+                } else {
+                    if (srcEl) srcEl.innerText = '';
+                    if (contentEl) contentEl.innerText = '';
+                }
+            }
+            // 교육자료 줄의 자료출처도 같은 세트의 첫 자료 출처로 같이 채움
+            if (items.length > 0) {
+                const eduSrcEl = document.getElementById('edu_material_source');
+                const matched = sourceOptions.find(opt => items[0].source.includes(opt));
+                if (eduSrcEl) eduSrcEl.innerText = matched || '';
+            }
+            closeModal('materialSetModal');
+        }
+
         function rebuildSitesMap() {
             sitesMap = {};
             excelRows.forEach(r => {
@@ -1543,7 +1668,9 @@
             }).join('');
         }
 
+        let currentSiteKey = '';
         function showRounds(siteName) {
+            currentSiteKey = siteName;
             currentSiteRows = sitesMap[siteName];
             document.getElementById('excelStep2').style.display = 'none';
             document.getElementById('excelStep3').style.display = 'block';
@@ -1553,6 +1680,36 @@
                 const date = fmtDate(r[32]);
                 return `<div class="round-item" onclick="applyRound(${idx})"><b>${round}회차</b> — ${date}</div>`;
             }).join('');
+        }
+
+        function openAddRoundModal() {
+            const rounds = currentSiteRows.map(r => parseInt(r[31]) || 0);
+            const nextRound = Math.max(0, ...rounds) + 1;
+            document.getElementById('newRoundNo').value = nextRound;
+            document.getElementById('newRoundDate').value = '';
+            document.getElementById('addRoundModal').style.display = 'flex';
+        }
+
+        async function confirmAddRound() {
+            const roundNo = parseInt(document.getElementById('newRoundNo').value);
+            const dateVal = document.getElementById('newRoundDate').value;
+            if (!roundNo || !dateVal) { alert('회차번호와 날짜를 입력해주세요.'); return; }
+
+            const latest = currentSiteRows.slice().sort((a, b) => (parseInt(b[31]) || 0) - (parseInt(a[31]) || 0))[0];
+            const newRow = latest.slice();
+            newRow[31] = roundNo;
+            const [y, m, d] = dateVal.split('-').map(Number);
+            newRow[32] = new Date(y, m - 1, d);
+
+            currentSiteRows.push(newRow);
+            excelRows.push(newRow);
+
+            closeModal('addRoundModal');
+            showRounds(currentSiteKey);
+
+            try {
+                await sb.from('site_assignments').upsert({ id: 1, rows: excelRows, updated_at: new Date().toISOString() });
+            } catch (e) { /* 로컬에는 반영됨, 클라우드 동기화만 실패 - 무시하고 계속 사용 가능 */ }
         }
 
         function backToSiteList() {
@@ -1591,7 +1748,7 @@
             setText('const_end_date', fmtDate(r[10]));
             setText('site_tel', r[13]);
             setText('hq_tel', r[13]);
-            setText('guide_category', r[24]);
+            // 구분(공종)은 K2B 엑셀 값이 부정확한 경우가 많아 자동으로 덮어쓰지 않음 - 고정값 유지, 필요시 화면에서 직접 수정
             document.getElementById('guide_round').innerHTML = '(&nbsp;&nbsp;' + (r[31] || '') + '&nbsp;&nbsp;) 회차&nbsp;&nbsp;/&nbsp;&nbsp;총 (&nbsp;&nbsp;' + (r[26] || '') + '&nbsp;&nbsp;) 회';
             setText('guide_date', fmtDate(r[32]));
             document.getElementById('current_progress').innerHTML = '(&nbsp;&nbsp;' + (r[33] || '') + '&nbsp;&nbsp;)%';
