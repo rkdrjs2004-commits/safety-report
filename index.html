@@ -1883,31 +1883,55 @@
             }
         }
 
-        async function loadPreviousHazards() {
+async function loadPreviousHazards() {
             const siteName = document.getElementById('site_name').innerText.trim();
             const companyName = document.getElementById('hq_company_name').innerText.trim();
             const currentRound = parseRoundNo(document.getElementById('guide_round').innerText);
+            
             if (!siteName) { alert('현장명이 비어있습니다. 먼저 1페이지 정보를 입력하거나 엑셀에서 불러오세요.'); return; }
+
+            // ★ [새로 추가된 메커니즘] 1회차일 경우 이전기록을 찾지 않고 무조건 "최초방문"으로 고정 세팅
+            if (currentRound === 1) {
+                for (let i = 1; i <= 4; i++) {
+                    document.getElementById('sec3_date_' + i).innerHTML = ''; // 날짜 비움
+                    document.getElementById('sec3_loc_' + i).innerHTML = ''; // 장소 비움
+                    document.getElementById('sec3_hazard_' + i).innerHTML = ''; // 요인 비움
+                    document.getElementById('sec3_action_' + i).innerHTML = '최초방문으로 지적사항없음';
+                    document.getElementById('sec3_result_' + i).value = '기타';
+                }
+                alert('1회차 기술지도입니다. 3번 항목이 최초방문 기준으로 자동 세팅되었습니다.');
+                return; // 여기서 끝냄 (DB 조회 안 함)
+            }
+
+            // ★ 2회차 이상일 경우: 이전 회차(N-1)의 4번 항목을 현재(N) 회차의 3번 항목으로 불러옴
             try {
                 let query = sb.from('reports').select('data, round_no').eq('site_name', siteName);
                 if (companyName) query = query.eq('company_name', companyName);
                 if (currentRound) query = query.lt('round_no', currentRound);
                 query = query.order('round_no', { ascending: false }).limit(1);
+                
                 const { data, error } = await query;
                 if (error) throw error;
-                if (!data || data.length === 0) { alert('이 현장의 이전 회차 저장 기록이 없습니다.\n(먼저 이전 회차 보고서를 "☁️ 보고서 저장"으로 저장해두셔야 불러올 수 있어요)'); return; }
+                if (!data || data.length === 0) { 
+                    alert('이 현장의 이전 회차 저장 기록이 없습니다.\n(먼저 이전 회차 보고서를 "☁️ 보고서 저장"으로 저장해두셔야 불러올 수 있어요)'); 
+                    return; 
+                }
+                
                 const prev = data[0].data;
                 for (let i = 1; i <= 4; i++) {
                     const dateField = prev['guide_date'];
-                    const loc = prev['h_loc_' + i], hz = prev['h_hazard_' + i], act = prev['h_action_' + i];
+                    const loc = prev['h_loc_' + i], hz = prev['h_hazard_' + i], act = prev['h_action_' + i]; // 이전 회차의 4번 데이터들
+                    
+                    // 현재 회차의 3번 칸으로 집어넣기
                     if (dateField) document.getElementById('sec3_date_' + i).innerHTML = dateField.value;
                     if (loc) document.getElementById('sec3_loc_' + i).innerHTML = loc.value;
                     if (hz) document.getElementById('sec3_hazard_' + i).innerHTML = hz.value;
                     if (act) document.getElementById('sec3_action_' + i).innerHTML = act.value;
+                    
                     const resultSel = document.getElementById('sec3_result_' + i);
                     if (resultSel) resultSel.value = '작업종료';
                 }
-                alert('이전 ' + data[0].round_no + '회차의 위험성 감소대책을 불러왔습니다.');
+                alert('이전 ' + data[0].round_no + '회차의 4번(위험성 감소대책) 내용을 현재 3번 항목으로 성공적으로 불러왔습니다.');
             } catch (e) {
                 alert('조회 실패: ' + e.message);
             }
