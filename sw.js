@@ -1,4 +1,4 @@
-const CACHE_NAME = 'safety-report-v1';
+const CACHE_NAME = 'safety-report-v2';
 const ASSETS = [
   './index.html',
   './bg.png', './bg2.png', './bg3.png', './bg4.png',
@@ -18,9 +18,17 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  // 앱 껍데기(HTML/이미지)는 캐시 우선, API 요청(supabase 등)은 항상 네트워크로
+  // supabase, cdn 요청은 항상 네트워크로 (캐시 대상 아님)
   if (e.request.url.includes('supabase.co') || e.request.url.includes('cdn')) return;
+
+  // 앱 껍데기(HTML/이미지)는 "네트워크 우선" - 인터넷 되면 항상 최신판, 안 될 때만 캐시된 예전 버전
   e.respondWith(
-    caches.match(e.request).then((cached) => cached || fetch(e.request))
+    fetch(e.request)
+      .then((res) => {
+        const resClone = res.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(e.request, resClone));
+        return res;
+      })
+      .catch(() => caches.match(e.request))
   );
 });
