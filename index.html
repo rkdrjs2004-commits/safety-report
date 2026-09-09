@@ -482,7 +482,7 @@
 
             <!-- 4번 공종 헤더 -->
             <div class="cell cell-bold" style="left: 252px; top: 341px; width: 248px; height: 24px; font-size: 7.5px; background:#fff;">
-                (&nbsp;&nbsp;현공종 : <span contenteditable="true" style="color:#002060;">전기공사</span>&nbsp;&nbsp;/&nbsp;&nbsp;(세부공종) <span contenteditable="true" style="color:#002060;">전기공사 준비</span>&nbsp;&nbsp;)
+                (&nbsp;&nbsp;현공종 : <span id="p2_main_type" contenteditable="true" style="color:#002060;">전기공사</span>&nbsp;&nbsp;/&nbsp;&nbsp;(세부공종) <span id="p2_sub_type" contenteditable="true" style="color:#002060;">전기공사 준비</span>&nbsp;&nbsp;)
             </div>
 
             <!-- ========================================================
@@ -644,12 +644,13 @@
                 <div class="hazard-cat-bar">
                     <select class="cat-select" id="cat_main_3" onchange="updateHazardFromCategory(3)">
                         <option value="" selected></option>
-                        <option value="기타 안전대책">기타 안전대책</option>
-                        <option value="12대기인물">12대기인물</option>
+                        <option value="기타">기타</option>
                         <option value="TBM">TBM</option>
+                        <option value="12대기인물">12대기인물</option>
                         <option value="건설기계장비">건설기계장비</option>
                         <option value="위험기계기구">위험기계기구</option>
                         <option value="유해위험물질">유해위험물질</option>
+                        <option value="기타 안전대책">기타 안전대책</option>
                     </select>
                     <select class="cat-select" id="cat_sub_3" onchange="updateHazardFromCategory(3)">
                         <option value="" selected></option>
@@ -715,12 +716,13 @@
                 <div class="hazard-cat-bar">
                     <select class="cat-select" id="cat_main_4" onchange="updateHazardFromCategory(4)">
                         <option value="" selected></option>
-                        <option value="기타 안전대책">기타 안전대책</option>
+                        <option value="기타">기타</option>
                         <option value="TBM">TBM</option>
                         <option value="12대기인물">12대기인물</option>
                         <option value="건설기계장비">건설기계장비</option>
                         <option value="위험기계기구">위험기계기구</option>
                         <option value="유해위험물질">유해위험물질</option>
+                        <option value="기타 안전대책">기타 안전대책</option>
                     </select>
                     <select class="cat-select" id="cat_sub_4" onchange="updateHazardFromCategory(4)">
                         <option value="" selected></option>
@@ -833,11 +835,11 @@
         <div class="print-page">
         <div class="page-canvas page-4-bg">
             <!-- 교육대상 행: "근로자안전교육"은 배경에 이미 있는 기본값 → 겹치지 않게 오버레이 없음. "참석인원 ___명"의 빈칸만 -->
-            <div class="cell" contenteditable="true" style="left:350px; top:111.3px; width:35px; height:26px; font-size:6.5px;"></div>
+            <div class="cell" id="edu_participant_count" contenteditable="true" style="left:350px; top:111.3px; width:35px; height:26px; font-size:6.5px;"></div>
             <!-- 교육내용 행 (원래 빈칸) -->
-            <div class="cell cell-left" contenteditable="true" style="left:171.2px; top:137.3px; width:232.1px; height:25.7px; font-size:6.5px; padding:2px 4px;"></div>
+            <div class="cell cell-left" id="edu_content" contenteditable="true" style="left:171.2px; top:137.3px; width:232.1px; height:25.7px; font-size:6.5px; padding:2px 4px;"></div>
             <!-- 교육자료 행: "자료출처" 라벨은 배경에 있음 → 좌우 빈칸만 -->
-            <div class="cell cell-left" contenteditable="true" style="left:171.2px; top:163px; width:124.8px; height:25.8px; font-size:6.5px; padding:2px 4px;"></div>
+            <div class="cell cell-left" id="edu_material_content" contenteditable="true" style="left:171.2px; top:163px; width:124.8px; height:25.8px; font-size:6.5px; padding:2px 4px;"></div>
             <div class="cell" style="left:360px; top:176px; width:43.3px; height:12.3px;">
                 <div class="source-picker-btn" id="edu_material_source" onclick="openSourcePicker('edu_material_source')" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:4px; cursor:pointer; white-space:normal; line-height:1.05; text-align:center; word-break:break-all;"></div>
             </div>
@@ -877,43 +879,43 @@
             <div style="position:absolute; left:403.3px; top:188.8px; width:94.6px; height:1px; background:#000; pointer-events:none;"></div>
 
             <!-- 장비사용 8행: 종류/기준값은 배경에 이미 있음 → 측정장소/측정값만 입력칸, 측정결과는 양호/불량 글자 위에 동그라미 표시(텍스트 중복 없음) -->
-            <div class="cell" contenteditable="true" style="left:265.8px; top:287.6px; width:51.8px; height:22.2px; font-size:6.5px;"></div>
-            <div class="cell" contenteditable="true" style="left:317.6px; top:287.6px; width:42.8px; height:22.2px; font-size:6.5px;"></div>
+            <div class="cell" id="equip_location_1" contenteditable="true" style="left:265.8px; top:287.6px; width:51.8px; height:22.2px; font-size:6.5px;"></div>
+            <div class="cell" id="equip_value_1" contenteditable="true" style="left:317.6px; top:287.6px; width:42.8px; height:22.2px; font-size:6.5px;"></div>
             <div class="pf-zone" onclick="selectPassFail(this,'r1')" data-group="r1" style="left:360.4px; top:287.6px; width:42.9px; height:11.1px;"></div>
             <div class="pf-zone" onclick="selectPassFail(this,'r1')" data-group="r1" style="left:360.4px; top:298.7px; width:42.9px; height:11.1px;"></div>
 
-            <div class="cell" contenteditable="true" style="left:265.8px; top:309.8px; width:51.8px; height:31.6px; font-size:6.5px;"></div>
-            <div class="cell" contenteditable="true" style="left:317.6px; top:309.8px; width:42.8px; height:31.6px; font-size:6.5px;"></div>
+            <div class="cell" id="equip_location_2" contenteditable="true" style="left:265.8px; top:309.8px; width:51.8px; height:31.6px; font-size:6.5px;"></div>
+            <div class="cell" id="equip_value_2" contenteditable="true" style="left:317.6px; top:309.8px; width:42.8px; height:31.6px; font-size:6.5px;"></div>
             <div class="pf-zone" onclick="selectPassFail(this,'r2')" data-group="r2" style="left:360.4px; top:309.8px; width:42.9px; height:15.8px;"></div>
             <div class="pf-zone" onclick="selectPassFail(this,'r2')" data-group="r2" style="left:360.4px; top:325.6px; width:42.9px; height:15.8px;"></div>
 
-            <div class="cell" contenteditable="true" style="left:265.8px; top:341.4px; width:51.8px; height:22.65px; font-size:6.5px;"></div>
-            <div class="cell" contenteditable="true" style="left:317.6px; top:341.4px; width:42.8px; height:22.65px; font-size:6.5px;"></div>
+            <div class="cell" id="equip_location_3" contenteditable="true" style="left:265.8px; top:341.4px; width:51.8px; height:22.65px; font-size:6.5px;"></div>
+            <div class="cell" id="equip_value_3" contenteditable="true" style="left:317.6px; top:341.4px; width:42.8px; height:22.65px; font-size:6.5px;"></div>
             <div class="pf-zone" onclick="selectPassFail(this,'r3')" data-group="r3" style="left:360.4px; top:341.4px; width:42.9px; height:11.3px;"></div>
             <div class="pf-zone" onclick="selectPassFail(this,'r3')" data-group="r3" style="left:360.4px; top:352.7px; width:42.9px; height:11.3px;"></div>
 
-            <div class="cell" contenteditable="true" style="left:265.8px; top:364.05px; width:51.8px; height:22.2px; font-size:6.5px;"></div>
-            <div class="cell" contenteditable="true" style="left:317.6px; top:364.05px; width:42.8px; height:22.2px; font-size:6.5px;"></div>
+            <div class="cell" id="equip_location_4" contenteditable="true" style="left:265.8px; top:364.05px; width:51.8px; height:22.2px; font-size:6.5px;"></div>
+            <div class="cell" id="equip_value_4" contenteditable="true" style="left:317.6px; top:364.05px; width:42.8px; height:22.2px; font-size:6.5px;"></div>
             <div class="pf-zone" onclick="selectPassFail(this,'r4')" data-group="r4" style="left:360.4px; top:364.05px; width:42.9px; height:11.1px;"></div>
             <div class="pf-zone" onclick="selectPassFail(this,'r4')" data-group="r4" style="left:360.4px; top:375.15px; width:42.9px; height:11.1px;"></div>
 
-            <div class="cell" contenteditable="true" style="left:265.8px; top:386.25px; width:51.8px; height:22.15px; font-size:6.5px;"></div>
-            <div class="cell" contenteditable="true" style="left:317.6px; top:386.25px; width:42.8px; height:22.15px; font-size:6.5px;"></div>
+            <div class="cell" id="equip_location_5" contenteditable="true" style="left:265.8px; top:386.25px; width:51.8px; height:22.15px; font-size:6.5px;"></div>
+            <div class="cell" id="equip_value_5" contenteditable="true" style="left:317.6px; top:386.25px; width:42.8px; height:22.15px; font-size:6.5px;"></div>
             <div class="pf-zone" onclick="selectPassFail(this,'r5')" data-group="r5" style="left:360.4px; top:386.25px; width:42.9px; height:11.1px;"></div>
             <div class="pf-zone" onclick="selectPassFail(this,'r5')" data-group="r5" style="left:360.4px; top:397.35px; width:42.9px; height:11.1px;"></div>
 
-            <div class="cell" contenteditable="true" style="left:265.8px; top:408.4px; width:51.8px; height:22.65px; font-size:6.5px;"></div>
-            <div class="cell" contenteditable="true" style="left:317.6px; top:408.4px; width:42.8px; height:22.65px; font-size:6.5px;"></div>
+            <div class="cell" id="equip_location_6" contenteditable="true" style="left:265.8px; top:408.4px; width:51.8px; height:22.65px; font-size:6.5px;"></div>
+            <div class="cell" id="equip_value_6" contenteditable="true" style="left:317.6px; top:408.4px; width:42.8px; height:22.65px; font-size:6.5px;"></div>
             <div class="pf-zone" onclick="selectPassFail(this,'r6')" data-group="r6" style="left:360.4px; top:408.4px; width:42.9px; height:11.3px;"></div>
             <div class="pf-zone" onclick="selectPassFail(this,'r6')" data-group="r6" style="left:360.4px; top:419.7px; width:42.9px; height:11.3px;"></div>
 
-            <div class="cell" contenteditable="true" style="left:265.8px; top:431.05px; width:51.8px; height:22.2px; font-size:6.5px;"></div>
-            <div class="cell" contenteditable="true" style="left:317.6px; top:431.05px; width:42.8px; height:22.2px; font-size:6.5px;"></div>
+            <div class="cell" id="equip_location_7" contenteditable="true" style="left:265.8px; top:431.05px; width:51.8px; height:22.2px; font-size:6.5px;"></div>
+            <div class="cell" id="equip_value_7" contenteditable="true" style="left:317.6px; top:431.05px; width:42.8px; height:22.2px; font-size:6.5px;"></div>
             <div class="pf-zone" onclick="selectPassFail(this,'r7')" data-group="r7" style="left:360.4px; top:431.05px; width:42.9px; height:11.1px;"></div>
             <div class="pf-zone" onclick="selectPassFail(this,'r7')" data-group="r7" style="left:360.4px; top:442.15px; width:42.9px; height:11.1px;"></div>
 
-            <div class="cell" contenteditable="true" style="left:265.8px; top:453.25px; width:51.8px; height:22.6px; font-size:6.5px;"></div>
-            <div class="cell" contenteditable="true" style="left:317.6px; top:453.25px; width:42.8px; height:22.6px; font-size:6.5px;"></div>
+            <div class="cell" id="equip_location_8" contenteditable="true" style="left:265.8px; top:453.25px; width:51.8px; height:22.6px; font-size:6.5px;"></div>
+            <div class="cell" id="equip_value_8" contenteditable="true" style="left:317.6px; top:453.25px; width:42.8px; height:22.6px; font-size:6.5px;"></div>
             <div class="pf-zone" onclick="selectPassFail(this,'r8')" data-group="r8" style="left:360.4px; top:453.25px; width:42.9px; height:11.3px;"></div>
             <div class="pf-zone" onclick="selectPassFail(this,'r8')" data-group="r8" style="left:360.4px; top:464.55px; width:42.9px; height:11.3px;"></div>
 
@@ -936,7 +938,7 @@
             <div style="position:absolute; left:403.3px; top:431.05px; width:94.6px; height:1px; background:#000; pointer-events:none;"></div>
 
             <!-- 측정결과 불량시 개선대책 (원래 빈칸) -->
-            <div class="cell cell-left" contenteditable="true" style="left:197px; top:475.85px; width:300.9px; height:33.05px; font-size:6.5px; padding:2px 4px;"></div>
+            <div class="cell cell-left" id="equip_improvement" contenteditable="true" style="left:197px; top:475.85px; width:300.9px; height:33.05px; font-size:6.5px; padding:2px 4px;"></div>
         </div>
         </div>
 
@@ -1100,10 +1102,10 @@
 
     <script>
         const hazardDB = [
-            { cat: "근골격계/운반", main: "기타", sub: "자재운반", loc: "5층 옥상", hazard: "자재 적치 시 모서리 날카로운 철판에 베임 및 반복 작업 근골격계질환 위험", risk: "상", action: "ㆍ인증받은 안전장갑 및 안전화 착용 철저<br>ㆍ접근금지표지판 설치하여 작업물 위험 노출 해소<br>ㆍ신체부담감소 올바른 취급자세 교육 실시" },
-            { cat: "근골격계/운반", main: "기타", sub: "중량물", loc: "5층 옥상", hazard: "자재 운반 등 반복적인 중량물 인력 취급으로 인한 요통 및 근골격계질환 위험", risk: "중", action: "ㆍ중량물 무게에 따른 적정 작업방법 수립 및 인력운반 최소화 (1인당 25kg 이하)<br>ㆍ운반용 보조공구(대차, 핸드카 등) 사용<br>ㆍ장시간 작업 중 주기적 휴식 및 스트레칭 실시" },
-            { cat: "근골격계/운반", main: "기타", sub: "천정배관", loc: "1층 식당", hazard: "천정 속으로 머리를 넣고 장시간 작업 시 경량찬넬 접촉 및 근골격계질환 위험", risk: "상", action: "ㆍ신체부담감소 올바른 취급자세 교육 실시<br>ㆍ천정 경량찬넬 접촉 스트레스 작업 최소화<br>ㆍ반복적인 천정배관 작업 행동 조절 및 주기적 스트레칭" },
-            { cat: "근골격계/운반", main: "기타", sub: "이동통로", loc: "1층 식당", hazard: "이동통로 설치불량으로 인한 근로자 전도 위험 (공정상 타팀 설치 통로 공동 이용)", risk: "중", action: "1. 견고한 구조로 설치할 것<br>2. 경사는 30도 이하, 15도 초과 시 미끄럼방지 구조 설치(30도 이상 계단참 설치)<br>3. 추락 위험 장소 안전난간 설치" },
+            { cat: "근골격계/운반", main: "기타", sub: "", loc: "5층 옥상", hazard: "자재 적치 시 모서리 날카로운 철판에 베임 및 반복 작업 근골격계질환 위험", risk: "상", action: "ㆍ인증받은 안전장갑 및 안전화 착용 철저<br>ㆍ접근금지표지판 설치하여 작업물 위험 노출 해소<br>ㆍ신체부담감소 올바른 취급자세 교육 실시" },
+            { cat: "근골격계/운반", main: "기타", sub: "", loc: "5층 옥상", hazard: "자재 운반 등 반복적인 중량물 인력 취급으로 인한 요통 및 근골격계질환 위험", risk: "중", action: "ㆍ중량물 무게에 따른 적정 작업방법 수립 및 인력운반 최소화 (1인당 25kg 이하)<br>ㆍ운반용 보조공구(대차, 핸드카 등) 사용<br>ㆍ장시간 작업 중 주기적 휴식 및 스트레칭 실시" },
+            { cat: "근골격계/운반", main: "기타", sub: "", loc: "1층 식당", hazard: "천정 속으로 머리를 넣고 장시간 작업 시 경량찬넬 접촉 및 근골격계질환 위험", risk: "상", action: "ㆍ신체부담감소 올바른 취급자세 교육 실시<br>ㆍ천정 경량찬넬 접촉 스트레스 작업 최소화<br>ㆍ반복적인 천정배관 작업 행동 조절 및 주기적 스트레칭" },
+            { cat: "근골격계/운반", main: "기타", sub: "", loc: "1층 식당", hazard: "이동통로 설치불량으로 인한 근로자 전도 위험 (공정상 타팀 설치 통로 공동 이용)", risk: "중", action: "1. 견고한 구조로 설치할 것<br>2. 경사는 30도 이하, 15도 초과 시 미끄럼방지 구조 설치(30도 이상 계단참 설치)<br>3. 추락 위험 장소 안전난간 설치" },
             { cat: "화기/절단", main: "유해위험물질", sub: "현장내 비치", loc: "1층 식당", hazard: "유해화학물질 관리미흡 및 덜어쓰는 용기 경고표지 미부착으로 인한 재해 위험", risk: "상", action: "1. 덜어쓰는 소분 용기 사용 시 경고표지 부착<br>2. 현장 내 유해화학물질 취급 시 물질안전보건자료(MSDS) 게시 및 비치 요함" },
             { cat: "사다리/비계", main: "12대기인물", sub: "⑦ 사다리", loc: "5층 교실", hazard: "스프링클러 배관 설치용 이동식사다리 최상단 디딤대에 장시간 서서 작업 중 균형 상실 추락 위험", risk: "상", action: "ㆍ사다리는 승강 이동통로 또는 3.5m 이하 경작업에 한하여만 사용<br>ㆍ평탄하고 견고한 미끄럼 없는 바닥에 설치<br>ㆍ사다리 최상부 발판 및 바로 아래 디딤대 탑승 작업 절대 금지<br>[즉시이행] 2인 1조 작업 실시 및 안전모 턱끈 체결" },
             { cat: "사다리/비계", main: "12대기인물", sub: "⑦ 사다리", loc: "3층 화장실", hazard: "이동식 A형 사다리 등기구 취부 작업 중 1인 단독 작업으로 인한 사다리 전도 추락 위험", risk: "상", action: "ㆍ2m 이상~3.5m 미만 사다리 작업 시 반드시 안전모(턱끈 체결) 및 안전대 착용<br>ㆍ반드시 2인 1조로 하부 보조자가 사다리를 견고히 지지할 것<br>ㆍ최상부 발판 작업 금지 및 주변 전도 위험물 제거" },
@@ -1122,12 +1124,12 @@
             { cat: "장비/기타", main: "건설기계장비", sub: "덤프트럭", loc: "토공 반출구", hazard: "덤프트럭 적재함 인양 하역 중 차량 전도 및 상부 장애물 충돌 위험", risk: "상", action: "ㆍ평탄한 지반에서만 덤프 작업 실시<br>ㆍ적재함 상승 상태 주행 절대 금지<br>ㆍ상부 가공 전선로 이격 거리 확인" },
             { cat: "장비/기타", main: "건설기계장비", sub: "도로포장장비", loc: "도로 포장구간", hazard: "아스콘 포장장비(피니셔/롤러) 주행 중 고온 아스콘 비산 및 협착 위험", risk: "상", action: "ㆍ장비 전후방 감시 카메라 및 신호수 배치<br>ㆍ고온 보호장갑 및 안전화 착용<br>ㆍ장비 회전 반경 내 근로자 접근 금지" },
             { cat: "장비/기타", main: "건설기계장비", sub: "⑤ 굴착기", loc: "외부 관로구간", hazard: "굴착기 퀵커플러 유압 안전핀 미체결 상태 작업 중 버켓 탈락 낙하 위험", risk: "상", action: "ㆍ굴착기 버켓 체결용 수동/유압 안전핀 체결 준수<br>ㆍ작업반경 5m 이내 근로자 출입 금지 구획 설정<br>ㆍ전담 신호수 고정 배치" },
-            { cat: "관리/보건", main: "기타 안전대책", sub: "보건관리비", loc: "기타 안전대책", hazard: "산업안전보건관리비 계상 및 목적 외 사용으로 인한 위반 위험 (법 제72조)", risk: "상", action: "ㆍ총공사금액 2,000만원 이상 안전보건관리비 고시 기준에 따라 계상 및 사용<br>ㆍ목적외 사용 금지(과태료 및 PQ 감점)<br>ㆍ사용내역서 매월 작성 및 1년 보존" },
-            { cat: "관리/보건", main: "기타 안전대책", sub: "보호구 지급", loc: "기타 안전대책", hazard: "보호구 지급 및 착용 관리 미흡으로 인한 재해 강도 증가 위험 (산안규칙 제28조)", risk: "중", action: "ㆍ공종에 적합한 인증 보호구 지급 및 전 작업자 착용 철저<br>ㆍ안전모 착용 시 턱끈을 조여 벗겨지지 않도록 고정<br>ㆍ보호구 미착용자 현장 출입 통제" },
-            { cat: "관리/보건", main: "TBM", sub: "일일 TBM", loc: "관리적사항", hazard: "작업 전 일일 10분 TBM 미실시로 인한 당일 유해위험요인 미인지 위험", risk: "중", action: "ㆍ건진법 제65조: 작업 전 관리감독자 중심 10분 TBM 매일 실시<br>ㆍ당일 공종 유해위험요인 및 비상연락망 전파" },
-            { cat: "관리/보건", main: "기타", sub: "폭염관리", loc: "현장 전구역", hazard: "폭염 특보 시 물·그늘·휴식 3대 수칙 미준수로 인한 열사병 온열질환 위험", risk: "상", action: "ㆍ체감온도 33℃ 이상 시 매시간 10~15분 주기적 휴식 부여<br>ㆍ시원하고 깨끗한 음용수 및 식염포도당 비치<br>ㆍ그늘진 휴게공간 제공" },
-            { cat: "관리/보건", main: "기타", sub: "조도기준", loc: "실내 작업장", hazard: "작업장 및 통로 조도 기준(보통 150Lux, 통로 75Lux) 미확보 전도 위험", risk: "중", action: "ㆍ산안규칙 제8조: 보통작업 150Lux, 통로 75Lux 이상 조명 유지<br>ㆍ상시 통행로 임시 조명 증설 및 휴대용 랜턴 지급" },
-            { cat: "관리/보건", main: "기타", sub: "밀폐공간", loc: "지하 피트/맨홀", hazard: "밀폐공간 작업 전 복합가스 농도 미측정으로 인한 산소결핍 질식사망 위험", risk: "상", action: "ㆍ작업 전·중 4대 복합가스(O₂ 18% 이상, H₂S, CO) 연속 측정<br>ㆍ강제 급기팬 상시 가동 및 외부 감시인 배치, 송기마스크 비치" },
+            { cat: "관리/보건", main: "기타 안전대책", sub: "", loc: "기타 안전대책", hazard: "산업안전보건관리비 계상 및 목적 외 사용으로 인한 위반 위험 (법 제72조)", risk: "상", action: "ㆍ총공사금액 2,000만원 이상 안전보건관리비 고시 기준에 따라 계상 및 사용<br>ㆍ목적외 사용 금지(과태료 및 PQ 감점)<br>ㆍ사용내역서 매월 작성 및 1년 보존" },
+            { cat: "관리/보건", main: "기타 안전대책", sub: "", loc: "기타 안전대책", hazard: "보호구 지급 및 착용 관리 미흡으로 인한 재해 강도 증가 위험 (산안규칙 제28조)", risk: "중", action: "ㆍ공종에 적합한 인증 보호구 지급 및 전 작업자 착용 철저<br>ㆍ안전모 착용 시 턱끈을 조여 벗겨지지 않도록 고정<br>ㆍ보호구 미착용자 현장 출입 통제" },
+            { cat: "관리/보건", main: "TBM", sub: "", loc: "관리적사항", hazard: "작업 전 일일 10분 TBM 미실시로 인한 당일 유해위험요인 미인지 위험", risk: "중", action: "ㆍ건진법 제65조: 작업 전 관리감독자 중심 10분 TBM 매일 실시<br>ㆍ당일 공종 유해위험요인 및 비상연락망 전파" },
+            { cat: "관리/보건", main: "기타", sub: "", loc: "현장 전구역", hazard: "폭염 특보 시 물·그늘·휴식 3대 수칙 미준수로 인한 열사병 온열질환 위험", risk: "상", action: "ㆍ체감온도 33℃ 이상 시 매시간 10~15분 주기적 휴식 부여<br>ㆍ시원하고 깨끗한 음용수 및 식염포도당 비치<br>ㆍ그늘진 휴게공간 제공" },
+            { cat: "관리/보건", main: "기타", sub: "", loc: "실내 작업장", hazard: "작업장 및 통로 조도 기준(보통 150Lux, 통로 75Lux) 미확보 전도 위험", risk: "중", action: "ㆍ산안규칙 제8조: 보통작업 150Lux, 통로 75Lux 이상 조명 유지<br>ㆍ상시 통행로 임시 조명 증설 및 휴대용 랜턴 지급" },
+            { cat: "관리/보건", main: "기타", sub: "", loc: "지하 피트/맨홀", hazard: "밀폐공간 작업 전 복합가스 농도 미측정으로 인한 산소결핍 질식사망 위험", risk: "상", action: "ㆍ작업 전·중 4대 복합가스(O₂ 18% 이상, H₂S, CO) 연속 측정<br>ㆍ강제 급기팬 상시 가동 및 외부 감시인 배치, 송기마스크 비치" },
             { cat: "기타", main: "기타", sub: "", loc: "유해·위험장소", hazard: "유해·위험요인", risk: "중", action: "지 적 사 항 (재해예방대책방안)" },
             { cat: "근골격계/운반", main: "기타", sub: "", loc: "5층옥상", hazard: "● 자재적치시 모서리 날카로운 철판에 상해입을 위험우려 ● 반복적인 작업으로 인한 근곩 격계질환 위험우려", risk: "중", action: "● 인증받은 안전장갑 착용<br>● 안전화 착용으로 손에서 놓칠 경우 위험우려 해소<br>● 접근금지표지판 설치하여 작업물로 인한 위험노출우려 해소" },
             { cat: "근골격계/운반", main: "기타", sub: "", loc: "5층옥상", hazard: "● 자재운반등 반복적인 작업으 로 인하여 근골격계질환 위험우 려", risk: "중", action: "● 신체부담감소 올바른 취급자세 교육실시<br>● 중량물 무게에 따른 적정 작업방법 수립<br>● 인력운반의 최소화 ( 중량물의 경량화 )<br>● 운반용 보조공구 사용<br>● 장시간 작업 중 휴식시간 스트레칭" },
@@ -1836,8 +1838,34 @@
             if (el) el.innerText = val;
         }
 
+        const CARRY_OVER_FIELDS = ['corp_reg_no', 'biz_reg_no', 'license_no', 'hq_address'];
+        function resetForNewReport() {
+            document.querySelectorAll('#pdf-root [id]').forEach(el => {
+                const id = el.id;
+                if (CARRY_OVER_FIELDS.includes(id)) return; // 업체 공통정보는 유지
+                if (id.startsWith('photo_')) {
+                    el.innerHTML = '<div class="photo-hint">📷 사진</div>';
+                    return;
+                }
+                if (el.tagName === 'SELECT') {
+                    el.selectedIndex = 0;
+                    return;
+                }
+                if (id === 'guide_category') {
+                    el.innerText = '전기,통신,소방설비공사';
+                    return;
+                }
+                if (id === 'inspector_tel') {
+                    el.innerText = '010-9217-3165';
+                    return;
+                }
+                el.innerText = '';
+            });
+        }
+
         async function applyRound(idx) {
             const r = currentSiteRows[idx];
+            resetForNewReport(); // 새 현장/회차로 전환 - 이전 화면에 남아있던 내용(위험요인, 측정값 등) 초기화
             // ※ 법인등록번호/사업자등록번호/면허번호/본사주소는 엑셀에 없는 값이라 절대 건드리지 않음 → 한 번 입력해두면 회차를 바꿔도 그대로 유지됨
             setText('guide_org', r[0]);
             setText('biz_manage_no', r[1]);
