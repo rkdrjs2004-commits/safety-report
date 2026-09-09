@@ -1838,11 +1838,20 @@
             if (el) el.innerText = val;
         }
 
-        const CARRY_OVER_FIELDS = ['corp_reg_no', 'biz_reg_no', 'license_no', 'hq_address'];
+        const CARRY_OVER_FIELDS = ['corp_reg_no', 'biz_reg_no', 'license_no', 'hq_address', 'p2_main_type', 'p2_sub_type'];
+        const SIGN_SLOT_DEFAULTS = {
+            'slot-approval': '<svg width="45" height="35" viewBox="0 0 50 40"><path d="M 10 16 Q 18 5 28 10 T 32 30 Q 38 40 44 14 T 48 35" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"/><path d="M 20 22 Q 32 20 42 25" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>',
+            'slot-inspector': '<svg width="35" height="15" viewBox="0 0 40 20"><path d="M 5 12 Q 15 3 25 10 T 38 6" fill="none" stroke="#111" stroke-width="1.8"/></svg>',
+            'slot-manager': '<span class="sign-hint">(서명 터치)</span>'
+        };
         function resetForNewReport() {
             document.querySelectorAll('#pdf-root [id]').forEach(el => {
                 const id = el.id;
-                if (CARRY_OVER_FIELDS.includes(id)) return; // 업체 공통정보는 유지
+                if (CARRY_OVER_FIELDS.includes(id)) return; // 업체 공통정보 및 현공종/세부공종은 유지
+                if (SIGN_SLOT_DEFAULTS[id]) {
+                    el.innerHTML = SIGN_SLOT_DEFAULTS[id];
+                    return;
+                }
                 if (id.startsWith('photo_')) {
                     el.innerHTML = '<div class="photo-hint">📷 사진</div>';
                     return;
