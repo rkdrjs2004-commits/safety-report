@@ -70,23 +70,6 @@
         .page-3-bg { background-image: url('bg3.png'); }
         .page-4-bg { background-image: url('bg4.png'); }
 
-        /* [5페이지] 위험성평가 및 점검 회의록 - 원본과 같은 가로형이라 이 페이지만 가로로 인쇄됨 */
-        .page-canvas.page-5-wide {
-            width: 755px;
-            height: 533px;
-            background-size: 755px 533px;
-        }
-
-        /* [5페이지] 위험성평가 및 점검 회의록 - 배경이미지 없이 셀만으로 원본 재현 */
-        .rk-row { display: flex; }
-        .rk-cell {
-            border-right: 1px solid #000; border-bottom: 1px solid #000; box-sizing: border-box;
-            display: flex; align-items: center; justify-content: center; text-align: center;
-            overflow: hidden; color: #000; font-size: 6.5px; line-height: 1.25; word-break: keep-all;
-        }
-        .rk-cell-left { justify-content: flex-start; text-align: left; padding: 1px 3px; }
-        .rk-lbl { font-weight: bold; }
-
         .cell {
             position: absolute;
             display: flex;
@@ -254,16 +237,6 @@
             .photo-slot { background: transparent !important; }
             .photo-hint { display: none !important; }
             @page { size: A4 portrait; margin: 0mm; }
-
-            /* [5페이지] 원본 서식이 가로형이라 이 페이지만 가로(A4 landscape)로 인쇄 */
-            @page risklandscape { size: A4 landscape; margin: 0mm; }
-            .print-page-wide {
-                width: 297mm !important; height: 210mm !important;
-                page: risklandscape;
-            }
-            .page-canvas.page-5-wide {
-                width: 755px !important; height: 533px !important;
-            }
         }
     </style>
 </head>
@@ -294,7 +267,7 @@
                 </svg>
             </div>
 
-            <div id="site_name" class="cell cell-bold" style="left: 104px; top: 146px; width: 161px; height: 28px; font-size: 8px; line-height: 1.25;" contenteditable="true" oninput="updateDocumentTitle()">
+            <div id="site_name" class="cell cell-bold" style="left: 104px; top: 146px; width: 161px; height: 28px; font-size: 8px; line-height: 1.25;" contenteditable="true">
                 25-A-00부대 전기공사(1415)
             </div>
 
@@ -314,7 +287,7 @@
                 경기도 안양시 만안구 박달동 170-2
             </div>
 
-            <div id="hq_company_name" class="cell cell-bold" style="left: 104px; top: 284px; width: 161px; height: 29px; font-size: 8.5px;" contenteditable="true" oninput="updateDocumentTitle()">건희건설㈜</div>
+            <div id="hq_company_name" class="cell cell-bold" style="left: 104px; top: 284px; width: 161px; height: 29px; font-size: 8.5px;" contenteditable="true">건희건설㈜</div>
 
             <div class="cell" style="left: 337px; top: 284px; width: 161px; height: 29px; font-size: 8px; flex-direction: column; justify-content: center; line-height: 1.3;">
                 <div id="corp_reg_no" style="width: 100%; text-align: center;" contenteditable="true"></div>
@@ -966,93 +939,6 @@
 
             <!-- 측정결과 불량시 개선대책 (원래 빈칸) -->
             <div class="cell cell-left" id="equip_improvement" contenteditable="true" style="left:197px; top:475.85px; width:300.9px; height:33.05px; font-size:6.5px; padding:2px 4px;"></div>
-        </div>
-        </div>
-
-        <!-- [5페이지] 위험성평가 및 점검 회의록 (별지 제1호) - 가로형 -->
-        <div class="print-page print-page-wide">
-        <div class="page-canvas page-5-wide" style="background:#FFFFFF;">
-            <div class="cell" style="left:8px; top:6px; width:739px; height:26px; background:#EAF3FF; border:1px solid #000; flex-direction:column;">
-                <div style="font-size:13px; font-weight:bold; color:#111;">(&nbsp;<span id="risk_month"></span>월&nbsp;) 위험성평가 및 점검 회의록</div>
-                <div style="font-size:5.8px; color:#666; margin-top:1px;">[위험성평가 &rarr; 위험성평가회의 &rarr; 이행확인 &rarr; 교육·TBM전파] &middot; 별지 제1호 서식</div>
-            </div>
-<div class="cell cell-bold" style="left:8px; top:32px; width:60px; height:18px; background:#D9D9D9; border:1px solid #000; font-size:6px;">업체명</div>
-<div class="cell cell-left" id="risk_company" style="left:68px; top:32px; width:309px; height:18px; border:1px solid #000; border-left:none; font-size:6.8px;"></div>
-<div class="cell cell-bold" style="left:377px; top:32px; width:60px; height:18px; background:#D9D9D9; border:1px solid #000; border-left:none; font-size:6px;">현장명</div>
-<div class="cell cell-left" id="risk_site" style="left:437px; top:32px; width:310px; height:18px; border:1px solid #000; border-left:none; font-size:6.8px;"></div>
-<div class="cell cell-bold" style="left:8px; top:50px; width:79px; height:18px; background:#D9D9D9; border:1px solid #000; border-top:none; font-size:6px;">작성일자</div>
-<div class="cell cell-left" id="risk_write_date" style="left:87px; top:50px; width:250px; height:18px; border:1px solid #000; border-top:none; border-left:none; font-size:7.2px;"></div>
-<div class="cell cell-bold" style="left:337px; top:50px; width:79px; height:18px; background:#D9D9D9; border:1px solid #000; border-top:none; border-left:none; font-size:6px;">관리기간</div>
-<div class="cell cell-left" id="risk_mgmt_period" style="left:416px; top:50px; width:331px; height:18px; border:1px solid #000; border-top:none; border-left:none; font-size:6.8px;"></div>
-            <div class="cell" style="left:8px; top:68px; width:184px; height:34px; border:1px solid #000; border-top:none;  flex-direction:column; background:#E4DFF0;">
-                <div style="font-size:5.8px; font-weight:bold; text-align:center;">담당자(공사담당자)</div>
-                <span id="slot-risk1" class="sign-slot" onclick="openSignModal('risk1')" style="margin-top:2px; cursor:pointer;"><span class="sign-hint" style="font-size:6.5px;">(서명)</span></span>
-            </div>
-            <div class="cell" style="left:192px; top:68px; width:184px; height:34px; border:1px solid #000; border-top:none; border-left:none; flex-direction:column; background:#E4DFF0;">
-                <div style="font-size:5.8px; font-weight:bold; text-align:center;">검토자(위험성평가담당자)</div>
-                <span id="slot-risk2" class="sign-slot" onclick="openSignModal('risk2')" style="margin-top:2px; cursor:pointer;"><span class="sign-hint" style="font-size:6.5px;">(서명)</span></span>
-            </div>
-            <div class="cell" style="left:376px; top:68px; width:184px; height:34px; border:1px solid #000; border-top:none; border-left:none; flex-direction:column; background:#F6DEC4;">
-                <div style="font-size:5.8px; font-weight:bold; text-align:center;">근로자대표(작업반장 등)</div>
-                <span id="slot-risk3" class="sign-slot" onclick="openSignModal('risk3')" style="margin-top:2px; cursor:pointer;"><span class="sign-hint" style="font-size:6.5px;">(서명)</span></span>
-            </div>
-            <div class="cell" style="left:560px; top:68px; width:187px; height:34px; border:1px solid #000; border-top:none; border-left:none; flex-direction:column; background:#F6DEC4;">
-                <div style="font-size:5.8px; font-weight:bold; text-align:center;">승인자(현장대리인)</div>
-                <span id="slot-risk4" class="sign-slot" onclick="openSignModal('risk4')" style="margin-top:2px; cursor:pointer;"><span class="sign-hint" style="font-size:6.5px;">(서명)</span></span>
-            </div>
-            <div class="cell cell-left" style="left:8px; top:102px; width:739px; height:14px; border:1px solid #000; border-top:none; background:#F6DEC4; font-size:7px; font-weight:bold;">
-                (&nbsp;<span id="risk_month2"></span>월&nbsp;) 예정공정 현황 &nbsp;&mdash;&nbsp;<span id="risk_process_band" contenteditable="true" style="font-weight:normal; cursor:text;">클릭하여 공종 선택 시 자동 표시</span>
-            </div>
-            <div style="position:absolute; left:8px; top:116px; width:739px; border-left:1px solid #000; border-top:1px solid #000;">
-                <div class="rk-row" style="height:14px;">
-                    <div class="rk-cell rk-lbl" style="width:100px; font-size:6.5px; background:#FFFFFF;">&#9312;공종분류</div>
-                    <div class="rk-cell rk-lbl" style="width:100px; font-size:6.5px; background:#FBE4CE;">&#9313;단위작업</div>
-                    <div class="rk-cell rk-lbl" style="width:400px; font-size:7px; background:#FFF7C2;">&#9314;위험요인</div>
-                    <div class="rk-cell rk-lbl" style="width:46.2px; font-size:6px; background:#FFFFFF; color:#C0392B;">&#9315;상</div>
-                    <div class="rk-cell rk-lbl" style="width:46.2px; font-size:6px; background:#FFFFFF; color:#C77A1E;">중</div>
-                    <div class="rk-cell rk-lbl" style="width:46.4px; font-size:6px; background:#FFFFFF; color:#2E7D46;">하</div>
-                </div>
-                <div class="rk-row" style="height:12px;">
-                    <div class="rk-cell rk-lbl" style="width:400px; font-size:6.5px; background:#D9EFD9;">&#9316;위험방지대책</div>
-                    <div class="rk-cell rk-lbl" style="width:200px; font-size:6.2px; background:#F6D9EC;">&#9317;담당자/예정일</div>
-                    <div class="rk-cell rk-lbl" style="width:69px; font-size:5.8px; background:#E3E1F5;">&#9318;근로자대표</div>
-                    <div class="rk-cell rk-lbl" style="width:70px; font-size:5.8px; background:#E3E1F5;">공사담당자</div>
-                </div>
-                <div id="risk_rows_container"></div>
-                <div id="risk_row_count" style="display:none;">0</div>
-                <div class="no-print" style="padding:3px 0; text-align:center; border-right:1px solid #000; border-bottom:1px solid #000; background:#fafafa; display:flex; gap:8px; justify-content:center;">
-                    <button onclick="pullFromPage3Hazards()" style="font-size:7.5px; padding:3px 12px; background:#00897b; color:#fff; border:none; border-radius:3px; cursor:pointer;">▶ 3페이지 위험요인 불러오기</button>
-                    <button onclick="addRiskRow()" style="font-size:7.5px; padding:3px 12px; background:#1a237e; color:#fff; border:none; border-radius:3px; cursor:pointer;">+ 위험요인 행 추가</button>
-                </div>
-                <div class="rk-row" style="height:14px;">
-                    <div class="rk-cell rk-lbl" style="width:50px; font-size:5.8px; background:#7B76D6; color:#FFF;">주차</div>
-                    <div class="rk-cell rk-lbl" style="width:257px; font-size:5.8px; background:#7B76D6; color:#FFF;">&#9319;주간 위험성평가 결과 논의&middot;공유 및 이행상황 점검</div>
-                    <div class="rk-cell rk-lbl" style="width:100px; font-size:5.6px; background:#7B76D6; color:#FFF;">점검회의 일정</div>
-                    <div class="rk-cell rk-lbl" style="width:164px; font-size:5.6px; background:#7B76D6; color:#FFF;">점검회의 참석자 확인</div>
-                    <div class="rk-cell rk-lbl" style="width:168px; font-size:5.6px; background:#4B4B4F; color:#FFF;">&#9320;TBM 참여인원(투입/참여)</div>
-                </div>
-                <div class="rk-row" style="height:22px;">
-                    <div class="rk-cell rk-lbl" id="risk_week1_label" style="width:50px; font-size:5.8px; background:#E3E1F5;"></div>
-                    <div class="rk-cell rk-cell-left" id="risk_week1_review" contenteditable="true" style="width:257px; font-size:6.5px; background:#E3E1F5;"></div>
-                    <div class="rk-cell rk-cell-left" id="risk_week1_sched" contenteditable="true" style="width:100px; font-size:6.5px;"></div>
-                    <div class="rk-cell rk-cell-left" id="risk_week1_attend" contenteditable="true" style="width:164px; font-size:6.5px;"></div>
-                    <div class="rk-cell rk-cell-left" id="risk_week1_tbm" contenteditable="true" style="width:168px; font-size:6.5px;"></div>
-                </div>
-                <div class="rk-row" style="height:22px;">
-                    <div class="rk-cell rk-lbl" id="risk_week2_label" style="width:50px; font-size:5.8px; background:#E3E1F5;"></div>
-                    <div class="rk-cell rk-cell-left" id="risk_week2_review" contenteditable="true" style="width:257px; font-size:6.5px; background:#E3E1F5;"></div>
-                    <div class="rk-cell rk-cell-left" id="risk_week2_sched" contenteditable="true" style="width:100px; font-size:6.5px;"></div>
-                    <div class="rk-cell rk-cell-left" id="risk_week2_attend" contenteditable="true" style="width:164px; font-size:6.5px;"></div>
-                    <div class="rk-cell rk-cell-left" id="risk_week2_tbm" contenteditable="true" style="width:168px; font-size:6.5px;"></div>
-                </div>
-                <div style="padding:3px 5px; font-size:5.8px; color:#555; border-right:1px solid #000; border-bottom:1px solid #000; box-sizing:border-box; line-height:1.5;">
-                    &laquo;TBM 순서&raquo; &#9312;집합·인사(직영,TBM리더) &nbsp;&#9313;보호구확인(리더&rarr;팀원) &nbsp;&#9314;당일작업·위험전달(전원참여) &nbsp;&#9315;기타사항전파(원청직원,리더) &nbsp;&#9316;지적확인(전원 3회 복창)
-                </div>
-                <div class="rk-row" style="height:11px;">
-                    <div class="rk-cell rk-lbl" style="width:739px; font-size:5.8px; background:#EDEFF2;">비고</div>
-                </div>
-                <div class="rk-cell rk-cell-left" id="risk_notes" contenteditable="true" style="width:739px; height:44px; align-items:flex-start; font-size:6.8px; border-right:1px solid #000; border-bottom:1px solid #000; box-sizing:border-box; padding:3px;"></div>
-            </div><!-- /flow wrapper -->
         </div>
         </div>
 
@@ -2066,14 +1952,9 @@
         const SIGN_SLOT_DEFAULTS = {
             'slot-approval': '<svg width="45" height="35" viewBox="0 0 50 40"><path d="M 10 16 Q 18 5 28 10 T 32 30 Q 38 40 44 14 T 48 35" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"/><path d="M 20 22 Q 32 20 42 25" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>',
             'slot-inspector': '<svg width="35" height="15" viewBox="0 0 40 20"><path d="M 5 12 Q 15 3 25 10 T 38 6" fill="none" stroke="#111" stroke-width="1.8"/></svg>',
-            'slot-manager': '<span class="sign-hint">(서명 터치)</span>',
-            'slot-risk1': '<span class="sign-hint" style="font-size:6px;">(서명)</span>',
-            'slot-risk2': '<span class="sign-hint" style="font-size:6px;">(서명)</span>',
-            'slot-risk3': '<span class="sign-hint" style="font-size:6px;">(서명)</span>',
-            'slot-risk4': '<span class="sign-hint" style="font-size:6px;">(서명)</span>'
+            'slot-manager': '<span class="sign-hint">(서명 터치)</span>'
         };
         function resetForNewReport() {
-            lastP3BottomIdx = null;
             document.querySelectorAll('#pdf-root [id]').forEach(el => {
                 const id = el.id;
                 if (CARRY_OVER_FIELDS.includes(id)) return; // 업체 공통정보 및 현공종/세부공종은 유지
@@ -2097,17 +1978,8 @@
                     el.innerText = '010-9217-3165';
                     return;
                 }
-                if (id === 'risk_row_count') {
-                    el.innerText = String(riskRowCount);
-                    return;
-                }
-                if (id.startsWith('risk_gongjong_') || id.startsWith('risk_grade_') || id.startsWith('risk_chk_')) {
-                    el.innerText = ''; // 클릭형 등급/체크 칸은 심볼만 지움 (아래 공통 처리로도 되지만 명시)
-                    return;
-                }
                 el.innerText = '';
             });
-            resetRiskRowsToDefault(); // [5페이지] 위 루프에서 비워진 컨테이너를 기본 4행으로 다시 채움
         }
 
         async function applyRound(idx) {
@@ -2150,11 +2022,6 @@
             // 법인등록번호/사업자등록번호/면허번호/본사주소는 엑셀에 없으니,
             // 같은 업체로 예전에 저장해둔 기록이 있으면 자동으로 가져옴 (현재 칸이 비어있을 때만, 이미 입력된 값은 안 건드림)
             await fillCompanyInfoFromHistory(r[4], r[3]);
-
-            // [5페이지] 업체명/현장명/작성일자/관리기간 자동 등록
-            fillRiskAssessmentDefaults();
-
-            updateDocumentTitle(); // PDF 저장시 파일명에 쓸 제목을 미리 갱신해둠 (안드로이드 인쇄 타이밍 문제 방지)
 
             closeModal('excelModal');
         }
@@ -2210,11 +2077,6 @@
             return data;
         }
         function applyReportData(data) {
-            // [5페이지] 저장 당시 행 개수만큼 먼저 만들어둬야 아래에서 각 칸에 값이 제대로 들어감
-            if (data['risk_row_count'] && data['risk_row_count'].value) {
-                const target = parseInt(data['risk_row_count'].value) || 4;
-                ensureRiskRowCount(Math.max(4, target));
-            }
             Object.keys(data).forEach(id => {
                 const el = document.getElementById(id);
                 if (!el) return;
@@ -2310,7 +2172,6 @@
                 const { data, error } = await sb.from('reports').select('data').eq('id', id).single();
                 if (error) throw error;
                 applyReportData(data.data);
-                updateDocumentTitle(); // PDF 저장시 파일명에 쓸 제목을 미리 갱신해둠
                 closeModal(modalToClose);
             } catch (e) {
                 alert('불러오기 실패: ' + e.message);
@@ -2359,7 +2220,8 @@
             }
         }
 
-        function updateDocumentTitle() {
+        function saveAsPDF() {
+            const originalTitle = document.title;
             const siteName = (document.getElementById('site_name').innerText || '현장').trim();
             const companyName = (document.getElementById('hq_company_name').innerText || '').trim();
             const roundMatch = (document.getElementById('guide_round').innerText || '').match(/\d+/);
@@ -2368,20 +2230,12 @@
             const clean = s => s.replace(/[\\/:*?"<>|]/g, '').trim();
             const parts = [clean(siteName), clean(companyName), roundLabel].filter(Boolean);
             document.title = parts.join('_') || '기술지도결과보고서';
-        }
-        function saveAsPDF() {
-            // 인쇄 버튼을 누른 시점에도 한 번 더 갱신 (혹시 놓친 변경이 있을 경우 대비)
-            updateDocumentTitle();
-            // 안드로이드(특히 폴드4 등 삼성 기기)는 document.title을 바꾼 직후 곧바로 print()를 부르면
-            // 인쇄 미리보기가 아직 이전 제목을 들고 있어 PDF 파일명이 옛 제목으로 저장되는 경우가 있었음.
-            // → 그래서 이제는 현장명/업체명/회차가 바뀌는 즉시(엑셀에서 불러올 때, 직접 수정할 때) 미리
-            //   updateDocumentTitle()을 불러 제목을 항상 최신 상태로 유지해두고,
-            //   여기서는 화면이 실제로 다시 그려질 시간(두 번의 렌더 프레임)만 짧게 기다렸다가 인쇄를 호출함.
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    window.print();
-                });
-            });
+            // 제목 변경이 브라우저/기기에 확실히 반영된 뒤 인쇄창을 띄우기 위해 한 프레임 쉬어감
+            // (일부 태블릿·기기에서 제목 변경 직후 바로 print()를 부르면 이전 제목으로 인쇄창이 뜨는 경우가 있어 여유를 둠)
+            setTimeout(() => {
+                window.print();
+                setTimeout(() => { document.title = originalTitle; }, 1000);
+            }, 150);
         }
         async function sharePage() {
             if (navigator.share) {
@@ -2418,156 +2272,7 @@
             const p = p3BottomPresets[idx];
             document.getElementById('p3_bottom_process').innerHTML = p.process;
             document.getElementById('p3_bottom_hazard').innerHTML = p.hazard;
-            lastP3BottomIdx = idx;
-            applyGongjongLabel();
             closeModal('p3BottomModal');
-        }
-
-        // ===== [5페이지] 위험성평가 및 점검 회의록 =====
-        const P3_BOTTOM_LABELS = ['소방공사', '전기설비', '통신공사'];
-        let lastP3BottomIdx = null;
-        let riskRowCount = 0;
-        const GRADE_SUFFIX = { '상': 'sang', '중': 'jung', '하': 'ha' };
-
-        function applyGongjongLabel() {
-            if (lastP3BottomIdx === null) return;
-            const label = P3_BOTTOM_LABELS[lastP3BottomIdx] || '';
-            document.querySelectorAll('#risk_rows_container [id^="risk_gongjong_"]').forEach(el => { el.innerText = label; });
-            const bandEl = document.getElementById('risk_process_band');
-            if (bandEl) bandEl.innerText = label;
-        }
-
-        function pickGrade(n, grade) {
-            Object.keys(GRADE_SUFFIX).forEach(g => {
-                const el = document.getElementById('risk_grade_' + GRADE_SUFFIX[g] + '_' + n);
-                if (el) el.innerText = (g === grade) ? '✔' : '';
-            });
-        }
-
-        function riskRowTemplate(n) {
-            return `
-    <div class="rk-row" style="height:28px;">
-      <div class="rk-cell" id="risk_gongjong_${n}" style="width:70px; font-size:6.5px;"></div>
-      <div class="rk-cell rk-cell-left" id="risk_unit_${n}" contenteditable="true" style="width:70px; font-size:6.3px;"></div>
-      <div class="rk-cell rk-cell-left" id="risk_hazard_${n}" contenteditable="true" style="width:280px; font-size:6.3px;"></div>
-      <div class="rk-cell" id="risk_grade_sang_${n}" onclick="pickGrade(${n},'상')" style="width:32.3px; font-size:8px; cursor:pointer; color:#C0392B; font-weight:bold;"></div>
-      <div class="rk-cell" id="risk_grade_jung_${n}" onclick="pickGrade(${n},'중')" style="width:32.3px; font-size:8px; cursor:pointer; color:#C77A1E; font-weight:bold;"></div>
-      <div class="rk-cell" id="risk_grade_ha_${n}" onclick="pickGrade(${n},'하')" style="width:32.4px; font-size:8px; cursor:pointer; color:#2E7D46; font-weight:bold;"></div>
-    </div>
-    <div class="rk-row" style="height:28px;">
-      <div class="rk-cell rk-cell-left" id="risk_action_${n}" contenteditable="true" style="width:280px; font-size:6.3px;"></div>
-      <div class="rk-cell rk-cell-left" id="risk_owner_${n}" contenteditable="true" style="width:140px; font-size:6px; line-height:1.3;"></div>
-      <div class="rk-cell" id="risk_chk_worker_${n}" onclick="toggleCheck(this)" style="width:48.5px; font-size:9px; cursor:pointer;">☐</div>
-      <div class="rk-cell" id="risk_chk_owner_${n}" onclick="toggleCheck(this)" style="width:48.5px; font-size:9px; cursor:pointer;">☐</div>
-    </div>`;
-        }
-
-        function updateRiskRowCountField() {
-            const el = document.getElementById('risk_row_count');
-            if (el) el.innerText = String(riskRowCount);
-        }
-
-        function stampRowDefaults(n) {
-            const managerEl = document.getElementById('manager_name_input');
-            const assignee = managerEl ? managerEl.innerText.trim() : '';
-            const periodEl = document.getElementById('risk_mgmt_period');
-            const periodTxt = periodEl ? periodEl.innerText.trim() : '';
-            const endStr = periodTxt.includes('~') ? periodTxt.split('~')[1].trim() : '';
-            const ownerEl = document.getElementById('risk_owner_' + n);
-            if (ownerEl) ownerEl.innerHTML = (assignee || '') + ((assignee && endStr) ? '<br>' : '') + endStr;
-            if (lastP3BottomIdx !== null) {
-                const gEl = document.getElementById('risk_gongjong_' + n);
-                if (gEl) gEl.innerText = P3_BOTTOM_LABELS[lastP3BottomIdx] || '';
-            }
-        }
-
-        function addRiskRow() {
-            if (riskRowCount >= 10) { alert('행이 너무 많아 더 추가할 수 없습니다 (최대 10개).'); return; }
-            riskRowCount++;
-            const n = riskRowCount;
-            const container = document.getElementById('risk_rows_container');
-            const wrap = document.createElement('div');
-            wrap.className = 'risk-item';
-            wrap.innerHTML = riskRowTemplate(n);
-            container.appendChild(wrap);
-            stampRowDefaults(n);
-            updateRiskRowCountField();
-        }
-
-        function resetRiskRowsToDefault() {
-            const container = document.getElementById('risk_rows_container');
-            if (!container) return;
-            while (container.children.length > 4) container.removeChild(container.lastElementChild);
-            riskRowCount = container.children.length;
-            while (riskRowCount < 4) addRiskRow();
-            updateRiskRowCountField();
-        }
-
-        function ensureRiskRowCount(target) {
-            const container = document.getElementById('risk_rows_container');
-            if (!container) return;
-            while (container.children.length > target) container.removeChild(container.lastElementChild);
-            riskRowCount = container.children.length;
-            while (riskRowCount < target) addRiskRow();
-        }
-
-        function pullFromPage3Hazards() {
-            let pulled = 0;
-            for (let i = 1; i <= 4; i++) {
-                const h = document.getElementById('p3_hazard_' + i);
-                const a = document.getElementById('p3_action_' + i);
-                const rh = document.getElementById('risk_hazard_' + i);
-                const ra = document.getElementById('risk_action_' + i);
-                if (h && rh && h.innerText.trim()) { rh.innerHTML = h.innerHTML; pulled++; }
-                if (a && ra && a.innerText.trim()) ra.innerHTML = a.innerHTML;
-            }
-            if (pulled === 0) alert('3페이지에 아직 입력된 위험요인이 없습니다.');
-        }
-
-        function parseDotDate(s) {
-            const m = (s || '').match(/(\d{4})\.(\d{2})\.(\d{2})/);
-            if (!m) return null;
-            return new Date(Date.UTC(parseInt(m[1]), parseInt(m[2]) - 1, parseInt(m[3])));
-        }
-        function fmtDotDate(d) {
-            return d.getUTCFullYear() + '.' + String(d.getUTCMonth() + 1).padStart(2, '0') + '.' + String(d.getUTCDate()).padStart(2, '0');
-        }
-        function fmtShortDate(d) {
-            return String(d.getUTCMonth() + 1).padStart(2, '0') + '.' + String(d.getUTCDate()).padStart(2, '0');
-        }
-        function addDays(d, n) { return new Date(d.getTime() + n * 86400000); }
-
-        function fillRiskAssessmentDefaults() {
-            const writeDateEl = document.getElementById('guide_date');
-            const writeDateStr = writeDateEl ? writeDateEl.innerText.trim() : '';
-            setText('risk_write_date', writeDateStr);
-            setText('risk_company', document.getElementById('hq_company_name') ? document.getElementById('hq_company_name').innerText : '');
-            setText('risk_site', document.getElementById('site_name') ? document.getElementById('site_name').innerText : '');
-
-            const start = parseDotDate(writeDateStr);
-            if (start) {
-                const monthNum = start.getUTCMonth() + 1;
-                setText('risk_month', String(monthNum));
-                setText('risk_month2', String(monthNum));
-                const end = addDays(start, 13);
-                setText('risk_mgmt_period', fmtDotDate(start) + ' ~ ' + fmtDotDate(end));
-                const week1end = addDays(start, 6);
-                const week2start = addDays(start, 7);
-                setText('risk_week1_label', '1주차');
-                setText('risk_week2_label', '2주차');
-                const w1 = document.getElementById('risk_week1_review');
-                if (w1 && !w1.innerText.trim()) w1.innerText = '(' + fmtShortDate(start) + '~' + fmtShortDate(week1end) + ')';
-                const w2 = document.getElementById('risk_week2_review');
-                if (w2 && !w2.innerText.trim()) w2.innerText = '(' + fmtShortDate(week2start) + '~' + fmtShortDate(end) + ')';
-            } else {
-                setText('risk_month', '');
-                setText('risk_month2', '');
-                setText('risk_mgmt_period', '');
-                setText('risk_week1_label', '1주차');
-                setText('risk_week2_label', '2주차');
-            }
-            // 이미 그려진 행들의 담당자/예정일·공종분류도 최신 값으로 다시 찍음
-            for (let n = 1; n <= riskRowCount; n++) stampRowDefaults(n);
         }
 
         let currentPhotoTarget = '';
@@ -2647,11 +2352,7 @@
 
         function openSignModal(target) {
             currentSignTarget = target;
-            const titles = {
-                'manager': '현장소장(김기수) 서명', 'inspector': '담당요원(강건) 서명', 'approval': '결재 서명',
-                'risk1': '담당자(공사담당자) 서명', 'risk2': '검토자(위험성평가담당자) 서명',
-                'risk3': '근로자대표 서명', 'risk4': '승인자(현장대리인) 서명'
-            };
+            const titles = { 'manager': '현장소장(김기수) 서명', 'inspector': '담당요원(강건) 서명', 'approval': '결재 서명' };
             document.getElementById('modalTitle').innerText = titles[target] || '서명 입력';
             clearCanvas();
             document.getElementById('signModal').style.display = 'flex';
@@ -2662,7 +2363,6 @@
             if (currentSignTarget === 'manager') document.getElementById('slot-manager').innerHTML = `<img src="${dataUrl}" alt="서명">`;
             else if (currentSignTarget === 'inspector') document.getElementById('slot-inspector').innerHTML = `<img src="${dataUrl}" alt="서명">`;
             else if (currentSignTarget === 'approval') document.getElementById('slot-approval').innerHTML = `<img src="${dataUrl}" alt="서명" style="max-height:35px; max-width:45px;">`;
-            else if (['risk1','risk2','risk3','risk4'].includes(currentSignTarget)) document.getElementById('slot-' + currentSignTarget).innerHTML = `<img src="${dataUrl}" alt="서명">`;
             closeModal('signModal');
         }
 
@@ -2671,9 +2371,6 @@
                 navigator.serviceWorker.register('sw.js').catch(() => {});
             });
         }
-
-        // [5페이지] 최초 로드시 위험요인 표 기본 4행 생성
-        resetRiskRowsToDefault();
     </script>
 </body>
 </html>
