@@ -149,11 +149,21 @@
             cursor: pointer; font-size: 6.8px; line-height: 1.15; padding: 2px; text-align: left; overflow: hidden;
         }
 
-        /* 3페이지 "향후 진행공정" 항목별 공종 프리셋 드롭다운 (인쇄시 숨김) */
+        /* 3페이지 "향후 진행공정" 항목별 공종 프리셋 버튼 - 클릭시 큰 목록 모달 오픈 (인쇄시 숨김) */
         .p3-item-dropdown {
-            position: absolute; font-size: 5px; color: #555; background: #F3F3F3;
-            border: 1px solid #bbb; border-radius: 2px; z-index: 5; cursor: pointer; padding: 0;
+            position: absolute; font-size: 6px; color: #333; background: #F3F3F3;
+            border: 1px solid #bbb; border-radius: 2px; z-index: 5; cursor: pointer; padding: 0 2px;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-sizing: border-box;
         }
+        .p3-item-dropdown:hover { background: #e3f2fd; border-color: #0277bd; }
+
+        /* 2페이지 현공종/세부공종 선택 버튼 (인쇄시 숨김) */
+        .p2-type-dropdown {
+            display: inline-block; font-size: 8px; color: #0277bd; font-weight: bold;
+            cursor: pointer; padding: 0 2px; vertical-align: middle;
+        }
+        .p2-type-dropdown:hover { color: #d32f2f; }
 
         .photo-slot {
             position: absolute; display: flex; flex-direction: column;
@@ -224,6 +234,40 @@
             background: #e0e0e0; border-radius: 3px; margin-right: 4px; color: #333;
         }
 
+        /* 목록이 긴 모달(위험요인 라이브러리, 공정 선택)은 제목/검색/탭은 고정하고
+           목록만 내부 스크롤 → 닫기 버튼이 항상 화면에 보이도록 함 */
+        #hazardModal .modal-content, #procPickerModal .modal-content {
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+        /* 목록 영역만 늘어나거나 줄어들게 하고, 그 외 요소들은 절대 찌그러지지 않게 고정 */
+        #hazardModal .modal-content > *, #procPickerModal .modal-content > * {
+            flex-shrink: 0;
+        }
+        /* 위 규칙보다 우선하도록 더 구체적인 선택자로 목록 영역에만 줄어듦을 다시 허용 */
+        #hazardModal .modal-content #hazardListContainer,
+        #procPickerModal .modal-content #procPickerContainer {
+            overflow-y: auto; flex: 1 1 auto; min-height: 60px; flex-shrink: 1;
+        }
+        .custom-entry-toggle {
+            display: inline-block; margin-bottom: 8px; padding: 5px 9px; font-size: 10.5px; font-weight: bold;
+            background: #fff3e0; color: #e65100; border: 1px solid #e65100; border-radius: 4px; cursor: pointer;
+        }
+        .custom-entry-panel {
+            display: none; text-align: left; background: #fafafa; border: 1px solid #ddd;
+            border-radius: 6px; padding: 8px; margin-bottom: 10px; flex-shrink: 0;
+        }
+        .custom-entry-panel label {
+            display: block; font-size: 10.5px; font-weight: bold; color: #555; margin-bottom: 3px;
+        }
+        .custom-entry-panel textarea {
+            width: 100%; box-sizing: border-box; font-size: 11px; padding: 5px;
+            border: 1px solid #ccc; border-radius: 4px; margin-bottom: 7px; resize: vertical; font-family: inherit;
+        }
+        .custom-entry-apply {
+            width: 100%; padding: 8px 0; font-size: 12px; font-weight: bold;
+            background: #0277bd; color: #fff; border: none; border-radius: 4px; cursor: pointer;
+        }
+
         @media print {
             html, body { width: 210mm !important; height: 297mm !important; margin: 0 !important; padding: 0 !important; background: #ffffff !important; }
             .action-bar, .modal-overlay, input[type="file"], .no-print { display: none !important; }
@@ -253,6 +297,7 @@
         <button class="btn btn-material" onclick="openMaterialUploadModal()">📚 배포자료 목록 갱신</button>
         <button class="btn btn-save" onclick="openSaveModal()">☁️ 보고서 저장</button>
         <button class="btn btn-load" onclick="openLoadModal()">📂 지난 보고서 불러오기</button>
+        <button class="btn" onclick="openWorkLogExportModal()">🗓️ 업무일지 주간 내보내기</button>
         <button class="btn btn-sign" onclick="openSignModal('manager')">✍️ 현장소장 서명</button>
         <button class="btn btn-preset" onclick="openHazardModal(1)">📋 4번 위험요인 DB 선택</button>
         <button class="btn" onclick="saveAsPDF()">📥 PDF 저장 / 인쇄</button>
@@ -488,7 +533,7 @@
 
             <!-- 4번 공종 헤더 -->
             <div class="cell cell-bold" style="left: 252px; top: 341px; width: 248px; height: 24px; font-size: 7.5px; background:#fff;">
-                (&nbsp;&nbsp;현공종 : <span id="p2_main_type" contenteditable="true" style="color:#002060;">전기공사</span>&nbsp;&nbsp;/&nbsp;&nbsp;(세부공종) <span id="p2_sub_type" contenteditable="true" style="color:#002060;">전기공사 준비</span>&nbsp;&nbsp;)
+                (&nbsp;&nbsp;현공종 : <span id="p2_main_type" contenteditable="true" style="color:#002060;">전기공사</span><span class="p2-type-dropdown no-print" onclick="openProcPickerModal('p2main')" title="현공종 목록에서 선택">▾</span>&nbsp;&nbsp;/&nbsp;&nbsp;(세부공종) <span id="p2_sub_type" contenteditable="true" style="color:#002060;">전기공사 준비</span><span class="p2-type-dropdown no-print" onclick="openProcPickerModal('p2sub')" title="세부공종 목록에서 선택">▾</span>&nbsp;&nbsp;)
             </div>
 
             <!-- ========================================================
@@ -796,19 +841,15 @@
         <div class="print-page">
         <div class="page-canvas page-3-bg">
             <!-- 작은 표: "1.~4." 입력 시 아래 진행공정 칸에 실시간 자동 복사 -->
-            <div class="cell cell-left" id="p3_item_1" contenteditable="true" oninput="syncP3Item(1)" style="left:135px; top:79.7px; width:173.6px; height:32.8px; font-size:7px; padding-left:2px;"></div>
+            <div class="cell cell-left" id="p3_item_1" contenteditable="true" oninput="syncP3Item(1)" style="left:135px; top:79.7px; width:173.6px; height:32.8px; font-size:7px; padding-left:2px;">작업준비</div>
             <div class="cell cell-left" id="p3_item_2" contenteditable="true" oninput="syncP3Item(2)" style="left:324px; top:79.7px; width:173.9px; height:32.8px; font-size:7px; padding-left:2px;"></div>
-            <select id="p3_item_2_select" class="p3-item-dropdown no-print" onchange="applyProcessItemPreset(2, this.value)" style="left:451px; top:98.5px; width:46px; height:13px;">
-                <option value="">▾선택</option>
-            </select>
+            <div id="p3_item_2_select" class="p3-item-dropdown no-print" onclick="openProcPickerModal('p3item', 2)" style="left:451px; top:98.5px; width:46px; height:13px;">▾선택</div>
             <div class="cell cell-left" id="p3_item_3" contenteditable="true" oninput="syncP3Item(3)" style="left:135px; top:112.5px; width:173.6px; height:32px; font-size:7px; padding-left:2px;"></div>
-            <select id="p3_item_3_select" class="p3-item-dropdown no-print" onchange="applyProcessItemPreset(3, this.value)" style="left:262px; top:131.3px; width:46px; height:13px;">
-                <option value="">▾선택</option>
-            </select>
-            <div class="cell cell-left" id="p3_item_4" contenteditable="true" oninput="syncP3Item(4)" style="left:324px; top:112.5px; width:173.9px; height:32px; font-size:7px; padding-left:2px;"></div>
+            <div id="p3_item_3_select" class="p3-item-dropdown no-print" onclick="openProcPickerModal('p3item', 3)" style="left:262px; top:131.3px; width:46px; height:13px;">▾선택</div>
+            <div class="cell cell-left" id="p3_item_4" contenteditable="true" oninput="syncP3Item(4)" style="left:324px; top:112.5px; width:173.9px; height:32px; font-size:7px; padding-left:2px;">기타작업</div>
 
             <!-- 큰 표 4행: 진행공정(자동연동, 직접수정도 가능) / 유해위험요인+예방대책(클릭시 라이브러리) / 비고 -->
-            <div class="cell cell-left" id="p3_process_1" contenteditable="true" style="left:33.7px; top:176.5px; width:68.7px; height:76.4px; font-size:6.5px; padding:2px;"></div>
+            <div class="cell cell-left" id="p3_process_1" contenteditable="true" style="left:33.7px; top:176.5px; width:68.7px; height:76.4px; font-size:6.5px; padding:2px;">작업준비</div>
             <div class="cell cell-left" id="p3_hazard_1" contenteditable="true" onclick="openHazardModal(1,'page3')" style="left:102.4px; top:176.5px; width:103.1px; height:76.4px; font-size:6.5px; padding:2px; cursor:pointer;"></div>
             <div class="cell cell-left" id="p3_action_1" contenteditable="true" style="left:205.5px; top:176.5px; width:223.7px; height:76.4px; font-size:6.5px; padding:2px;"></div>
             <div id="photo_p3_1" class="photo-slot" style="left:429.2px; top:176.5px; width:68.7px; height:76.4px;" onclick="triggerPhotoUpload('photo_p3_1')"><div class="photo-hint">📷 사진</div></div>
@@ -823,7 +864,7 @@
             <div class="cell cell-left" id="p3_action_3" contenteditable="true" style="left:205.5px; top:329.6px; width:223.7px; height:76.7px; font-size:6.5px; padding:2px;"></div>
             <div id="photo_p3_3" class="photo-slot" style="left:429.2px; top:329.6px; width:68.7px; height:76.7px;" onclick="triggerPhotoUpload('photo_p3_3')"><div class="photo-hint">📷 사진</div></div>
 
-            <div class="cell cell-left" id="p3_process_4" contenteditable="true" style="left:33.7px; top:406.3px; width:68.7px; height:76.6px; font-size:6.5px; padding:2px;"></div>
+            <div class="cell cell-left" id="p3_process_4" contenteditable="true" style="left:33.7px; top:406.3px; width:68.7px; height:76.6px; font-size:6.5px; padding:2px;">기타작업</div>
             <div class="cell cell-left" id="p3_hazard_4" contenteditable="true" onclick="openHazardModal(4,'page3')" style="left:102.4px; top:406.3px; width:103.1px; height:76.6px; font-size:6.5px; padding:2px; cursor:pointer;"></div>
             <div class="cell cell-left" id="p3_action_4" contenteditable="true" style="left:205.5px; top:406.3px; width:223.7px; height:76.6px; font-size:6.5px; padding:2px;"></div>
             <div id="photo_p3_4" class="photo-slot" style="left:429.2px; top:406.3px; width:68.7px; height:76.6px;" onclick="triggerPhotoUpload('photo_p3_4')"><div class="photo-hint">📷 사진</div></div>
@@ -954,6 +995,9 @@
         </div>
         </div>
 
+        <!-- 업무일지(엑셀) 자동 생성용 보조 데이터: 화면/인쇄에는 노출되지 않고, 저장되는 report data에만 함께 저장됨 -->
+        <div id="wlog_support_distance" style="display:none;"></div>
+
     </div>
 
     <!-- 서명 팝업 모달 -->
@@ -1080,6 +1124,12 @@
                 <button class="btn-modal-cancel" onclick="closeModal('saveModal')">취소</button>
                 <button class="btn-modal-confirm" onclick="doSaveReport()">저장하기</button>
             </div>
+            <div style="border-top:1px solid #eee; margin-top:12px; padding-top:12px;">
+                <p style="font-size:11px; color:#888; margin-bottom:8px;">업무일지 엑셀(일일Data 시트)에 붙여넣을 한 줄을 자동으로 만들어 복사합니다.</p>
+                <div class="modal-btns">
+                    <button class="btn-modal-confirm" style="background:#00695c;" onclick="copyWorkLogRow()">📋 업무일지 줄 복사</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1093,11 +1143,41 @@
         </div>
     </div>
 
+    <!-- 업무일지 주간 내보내기 모달 -->
+    <div id="workLogExportModal" class="modal-overlay">
+        <div class="modal-content" style="max-width:480px;">
+            <div class="modal-title">업무일지 주간 내보내기</div>
+            <p style="font-size:12px; color:#555; margin-bottom:10px;">이 기간에 저장된 모든 보고서를 일일Data 시트 형식으로 한 번에 만들어드려요. 만든 뒤 전체 복사해서 엑셀 빈 줄들에 붙여넣으세요.</p>
+            <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px;">
+                <input type="date" id="wlogFromDate" style="flex:1; padding:6px; font-size:13px;">
+                <span>~</span>
+                <input type="date" id="wlogToDate" style="flex:1; padding:6px; font-size:13px;">
+            </div>
+            <div class="modal-btns">
+                <button class="btn-modal-cancel" onclick="closeModal('workLogExportModal')">취소</button>
+                <button class="btn-modal-confirm" onclick="generateWorkLogExport()">생성하기</button>
+            </div>
+            <div id="wlogExportStatus" style="font-size:12px; color:#0277bd; min-height:18px; margin-top:6px;"></div>
+            <textarea id="wlogExportResult" readonly style="width:100%; height:140px; margin-top:8px; font-size:11px; font-family:monospace; display:none; box-sizing:border-box;"></textarea>
+            <div class="modal-btns" id="wlogCopyBtnWrap" style="display:none;">
+                <button class="btn-modal-confirm" style="background:#00695c;" onclick="copyWorkLogExportResult()">📋 전체 복사</button>
+            </div>
+        </div>
+    </div>
+
     <!-- 4번 위험요인 종합 DB 모달 -->
     <div id="hazardModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-title">위험요인 및 대책 라이브러리</div>
             <input type="text" id="dbSearchInput" class="search-box" placeholder="🔍 검색어 입력 (예: 사다리, 용접, 접지, 굴착기, 그라인더, 펌프카...)" oninput="filterHazardList()">
+            <button type="button" class="custom-entry-toggle" onclick="toggleCustomHazardEntry()">✏️ 직접 입력하기</button>
+            <div id="customHazardPanel" class="custom-entry-panel">
+                <label>위험요인</label>
+                <textarea id="customHazardText" rows="2" placeholder="위험요인을 직접 입력하세요"></textarea>
+                <label>예방대책</label>
+                <textarea id="customActionText" rows="3" placeholder="예방대책을 직접 입력하세요"></textarea>
+                <button type="button" class="custom-entry-apply" onclick="applyCustomHazard()">✔ 이 내용 적용</button>
+            </div>
             <div class="modal-tabs">
                 <button class="tab-btn active" onclick="setTab('all')">전체</button>
                 <button class="tab-btn" onclick="setTab('근골격계/운반')">근골격계/운반</button>
@@ -1111,6 +1191,15 @@
             </div>
             <div id="hazardListContainer"></div>
             <div class="modal-btns"><button class="btn-modal-cancel" onclick="closeModal('hazardModal')">닫기</button></div>
+        </div>
+    </div>
+
+    <!-- 3페이지 세부공정/2페이지 현공종·세부공종 선택 모달 (공용) -->
+    <div id="procPickerModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-title" id="procPickerTitle">선택</div>
+            <div id="procPickerContainer"></div>
+            <div class="modal-btns"><button class="btn-modal-cancel" onclick="closeModal('procPickerModal')">닫기</button></div>
         </div>
     </div>
 
@@ -1533,6 +1622,39 @@
             if (allTab) allTab.classList.add('active');
             currentHazardBase = (currentHazardMode === 'page3') ? hazardDB.slice() : buildSortedHazardDB(rowNum);
             renderHazardList(currentHazardBase);
+            // 직접입력 패널은 열 때마다 접어두고 이전 내용은 비움
+            const panel = document.getElementById('customHazardPanel');
+            if (panel) panel.style.display = 'none';
+            const ht = document.getElementById('customHazardText');
+            const at = document.getElementById('customActionText');
+            if (ht) ht.value = '';
+            if (at) at.value = '';
+        }
+
+        function toggleCustomHazardEntry() {
+            const panel = document.getElementById('customHazardPanel');
+            if (!panel) return;
+            panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function applyCustomHazard() {
+            const hazardText = document.getElementById('customHazardText').value.trim();
+            const actionText = document.getElementById('customActionText').value.trim();
+            if (!hazardText && !actionText) {
+                alert('위험요인 또는 예방대책 중 하나는 입력해 주세요.');
+                return;
+            }
+            if (currentHazardMode === 'page3') {
+                if (hazardText) document.getElementById('p3_hazard_' + currentHazardRow).innerText = hazardText;
+                if (actionText) document.getElementById('p3_action_' + currentHazardRow).innerHTML = actionText;
+                closeModal('hazardModal');
+                return;
+            }
+            const hazardEl = document.getElementById('h_hazard_' + currentHazardRow);
+            const actionEl = document.getElementById('h_action_' + currentHazardRow);
+            if (hazardText) { hazardEl.innerText = hazardText; autoFitText(hazardEl, 6.5); }
+            if (actionText) { actionEl.innerHTML = actionText; autoFitText(actionEl, 7.5); }
+            closeModal('hazardModal');
         }
 
         function syncP3Item(n) {
@@ -1966,6 +2088,17 @@
             'slot-inspector': '<svg width="35" height="15" viewBox="0 0 40 20"><path d="M 5 12 Q 15 3 25 10 T 38 6" fill="none" stroke="#111" stroke-width="1.8"/></svg>',
             'slot-manager': '<span class="sign-hint">(서명 터치)</span>'
         };
+        // 새 보고서로 초기화할 때, 빈칸이 아니라 이 고정 문구로 되돌려야 하는 항목들
+        const TEXT_DEFAULTS = {
+            'guide_category': '전기,통신,소방설비공사',
+            'inspector_tel': '010-9217-3165',
+            'p3_item_1': '작업준비',
+            'p3_process_1': '작업준비',
+            'p3_item_4': '기타작업',
+            'p3_process_4': '기타작업',
+            'p3_item_2_select': '▾선택',
+            'p3_item_3_select': '▾선택'
+        };
         function resetForNewReport() {
             lastP3BottomIdx = null;
             document.querySelectorAll('#pdf-root [id]').forEach(el => {
@@ -1983,12 +2116,8 @@
                     el.selectedIndex = 0;
                     return;
                 }
-                if (id === 'guide_category') {
-                    el.innerText = '전기,통신,소방설비공사';
-                    return;
-                }
-                if (id === 'inspector_tel') {
-                    el.innerText = '010-9217-3165';
+                if (Object.prototype.hasOwnProperty.call(TEXT_DEFAULTS, id)) {
+                    el.innerText = TEXT_DEFAULTS[id];
                     return;
                 }
                 el.innerText = '';
@@ -2131,6 +2260,169 @@
                 setTimeout(() => closeModal('saveModal'), 1200);
             } catch (e) {
                 statusEl.innerText = '❌ 저장 실패: ' + e.message;
+            }
+        }
+
+        // ===== 업무일지(일일Data 시트) 줄 자동 생성 =====
+        // 일일Data 컬럼 순서(A~V): 일자,관리번호,회사명,공사명,지도회차(실시/계약),전회공정율,금회공정율,
+        // 지원/거리,사진유무,지도완료여부,k2b입력일자,비고,전회지도일,당초지도예정일,차기지도예정일,
+        // 산재발생현황,장비사용,교육지원,자료명,발행처,기타,평가용
+        function addDaysISO(iso, days) {
+            if (!iso) return '';
+            const d = new Date(iso + 'T00:00:00Z');
+            d.setUTCDate(d.getUTCDate() + days);
+            return d.toISOString().slice(0, 10);
+        }
+        // 직전 회차 기록 조회 → 전회공정율·전회지도일·지원거리(기록되어 있으면) 반환
+        async function lookupPrevRound(siteName, companyName, roundNo) {
+            let prevProgress = '', prevGuideDate = '', prevSupportDistance = '';
+            try {
+                const { data, error } = await sb.from('reports').select('data, guide_date')
+                    .eq('site_name', siteName).eq('company_name', companyName)
+                    .lt('round_no', roundNo).order('round_no', { ascending: false }).limit(1);
+                if (!error && data && data.length > 0) {
+                    const prev = data[0];
+                    prevGuideDate = prev.guide_date || '';
+                    const prevData = prev.data || {};
+                    if (prevData.current_progress && prevData.current_progress.value) {
+                        const m = String(prevData.current_progress.value).match(/\d+/);
+                        if (m) prevProgress = m[0];
+                    }
+                    if (prevData.wlog_support_distance && prevData.wlog_support_distance.value) {
+                        prevSupportDistance = prevData.wlog_support_distance.value;
+                    }
+                }
+            } catch (e) { /* 조회 실패해도 나머지 칸은 그대로 진행 */ }
+            return { prevProgress, prevGuideDate, prevSupportDistance };
+        }
+        // f: {guideDateIso, companyName, siteName, roundFrac, prevProgress, currentProgress, supportDistance, hasPhoto, prevGuideDate}
+        function formatWorkLogRow(f) {
+            const originalPlanDate = f.prevGuideDate ? addDaysISO(f.prevGuideDate, 14) : '';
+            const nextPlanDate = addDaysISO(f.guideDateIso, 14);
+            return [
+                f.guideDateIso, '', f.companyName, f.siteName, f.roundFrac,
+                f.prevProgress, f.currentProgress, f.supportDistance, f.hasPhoto ? '유' : '', '',
+                f.guideDateIso, '', f.prevGuideDate, originalPlanDate, nextPlanDate,
+                '', '', '근로자', '위험성평가 자료', '자체제작', '', '1'
+            ].join('\t');
+        }
+        async function copyWorkLogRow() {
+            const statusEl = document.getElementById('saveStatus');
+            const siteName = document.getElementById('site_name').innerText.trim();
+            const companyName = document.getElementById('hq_company_name').innerText.trim();
+            const roundNo = parseRoundNo(document.getElementById('guide_round').innerText);
+            const guideDateIso = parseKoreanDateToISO(document.getElementById('guide_date').innerText);
+            if (!siteName || !roundNo || !guideDateIso) {
+                alert('현장명·회차·지도일자를 먼저 채워주세요.');
+                return;
+            }
+            const roundNums = (document.getElementById('guide_round').innerText || '').match(/\d+/g) || [];
+            const roundFrac = roundNums.length >= 2 ? (roundNums[0] + '/' + roundNums[1]) : (roundNums[0] || '');
+            const progM = (document.getElementById('current_progress').innerText || '').match(/\d+/);
+            const currentProgress = progM ? progM[0] : '';
+
+            const { prevProgress, prevGuideDate, prevSupportDistance } = await lookupPrevRound(siteName, companyName, roundNo);
+
+            // 지원/거리: 현재 화면에 이미 있으면 그대로, 없으면 직전 회차 값 재사용, 그것도 없으면 한 번만 입력받음
+            let supportDistance = document.getElementById('wlog_support_distance').innerText.trim();
+            if (!supportDistance && prevSupportDistance) {
+                supportDistance = prevSupportDistance;
+            }
+            if (!supportDistance) {
+                const input = prompt('이 현장의 "지원/거리" 값을 입력하세요.\n(한 번 입력하면 이 현장의 다음 회차부터는 자동으로 재사용됩니다. 없으면 취소)', '');
+                if (input && input.trim()) supportDistance = input.trim();
+            }
+            if (supportDistance) setText('wlog_support_distance', supportDistance);
+
+            // 사진유무
+            let hasPhoto = false;
+            document.querySelectorAll('#pdf-root [id^="photo_"]').forEach(el => {
+                if (el.querySelector('img')) hasPhoto = true;
+            });
+
+            const rowText = formatWorkLogRow({
+                guideDateIso, companyName, siteName, roundFrac,
+                prevProgress, currentProgress, supportDistance, hasPhoto, prevGuideDate
+            });
+            try {
+                await navigator.clipboard.writeText(rowText);
+                if (statusEl) statusEl.innerText = '📋 업무일지 줄이 복사되었습니다. 엑셀 일일Data 시트 빈 줄에 붙여넣으세요.';
+                else alert('업무일지 줄이 복사되었습니다. 엑셀 일일Data 시트 빈 줄에 붙여넣으세요.');
+            } catch (e) {
+                prompt('클립보드 복사에 실패했습니다. 아래 내용을 직접 선택해서 복사하세요:', rowText);
+            }
+        }
+
+        // ===== 업무일지 주간(기간) 일괄 내보내기 =====
+        function openWorkLogExportModal() {
+            const today = new Date();
+            const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+            document.getElementById('wlogToDate').value = today.toISOString().slice(0, 10);
+            document.getElementById('wlogFromDate').value = weekAgo.toISOString().slice(0, 10);
+            document.getElementById('wlogExportStatus').innerText = '';
+            document.getElementById('wlogExportResult').style.display = 'none';
+            document.getElementById('wlogExportResult').value = '';
+            document.getElementById('wlogCopyBtnWrap').style.display = 'none';
+            document.getElementById('workLogExportModal').style.display = 'flex';
+        }
+        async function generateWorkLogExport() {
+            const statusEl = document.getElementById('wlogExportStatus');
+            const resultEl = document.getElementById('wlogExportResult');
+            const copyWrapEl = document.getElementById('wlogCopyBtnWrap');
+            const fromDate = document.getElementById('wlogFromDate').value;
+            const toDate = document.getElementById('wlogToDate').value;
+            if (!fromDate || !toDate) { statusEl.innerText = '❌ 기간을 선택해주세요.'; return; }
+            resultEl.style.display = 'none';
+            copyWrapEl.style.display = 'none';
+            statusEl.innerText = '조회 중...';
+            try {
+                const { data, error } = await sb.from('reports')
+                    .select('site_name, company_name, round_no, guide_date, data')
+                    .gte('guide_date', fromDate).lte('guide_date', toDate)
+                    .order('guide_date', { ascending: true });
+                if (error) throw error;
+                if (!data || data.length === 0) {
+                    statusEl.innerText = '이 기간에 저장된 보고서가 없습니다.';
+                    return;
+                }
+                const lines = [];
+                for (const r of data) {
+                    const rData = r.data || {};
+                    const roundNums = (rData.guide_round && rData.guide_round.value) ? String(rData.guide_round.value).match(/\d+/g) || [] : [];
+                    const roundFrac = roundNums.length >= 2 ? (roundNums[0] + '/' + roundNums[1]) : (r.round_no ? String(r.round_no) : '');
+                    const progM = (rData.current_progress && rData.current_progress.value) ? String(rData.current_progress.value).match(/\d+/) : null;
+                    const currentProgress = progM ? progM[0] : '';
+                    let hasPhoto = false;
+                    Object.keys(rData).forEach(id => {
+                        if (id.startsWith('photo_') && rData[id] && rData[id].value && String(rData[id].value).includes('<img')) hasPhoto = true;
+                    });
+                    let supportDistance = (rData.wlog_support_distance && rData.wlog_support_distance.value) ? rData.wlog_support_distance.value : '';
+                    const { prevProgress, prevGuideDate, prevSupportDistance } = await lookupPrevRound(r.site_name, r.company_name, r.round_no);
+                    if (!supportDistance) supportDistance = prevSupportDistance; // 없으면 직전 회차 값 재사용, 그마저 없으면 공란(엑셀에서 직접 채움)
+
+                    lines.push(formatWorkLogRow({
+                        guideDateIso: r.guide_date, companyName: r.company_name, siteName: r.site_name, roundFrac,
+                        prevProgress, currentProgress, supportDistance, hasPhoto, prevGuideDate
+                    }));
+                }
+                resultEl.value = lines.join('\n');
+                resultEl.style.display = 'block';
+                copyWrapEl.style.display = 'flex';
+                statusEl.innerText = `✅ ${lines.length}건 생성 완료. 아래 "전체 복사" 누른 뒤 엑셀 빈 줄들에 붙여넣으세요.`;
+            } catch (e) {
+                statusEl.innerText = '❌ 생성 실패: ' + e.message;
+            }
+        }
+        async function copyWorkLogExportResult() {
+            const resultEl = document.getElementById('wlogExportResult');
+            const statusEl = document.getElementById('wlogExportStatus');
+            try {
+                await navigator.clipboard.writeText(resultEl.value);
+                statusEl.innerText = '📋 전체 복사되었습니다. 엑셀 일일Data 시트 빈 줄에 붙여넣으세요.';
+            } catch (e) {
+                resultEl.style.display = 'block';
+                resultEl.select();
+                statusEl.innerText = '클립보드 복사에 실패했습니다. 위 텍스트를 직접 선택해서 복사해주세요.';
             }
         }
 
@@ -2307,26 +2599,6 @@
             ['인입공사', '배관공사', '배선공사', '트레이·덕트 설치작업', '분전반·수배전반 설치작업', '큐비클(변전설비) 설치작업', '접지공사', '동력설비 설치작업', '조명·콘센트·스위치 설치작업', '비상발전기·UPS 설치작업', '절연저항 측정·시험작업', '수전·시운전작업'],
             ['인입공사', '배관공사', '선로 포설작업', '광케이블 포설·접속작업', '통신단자함·통신실 설치작업', '구내정보통신설비(LAN) 설치작업', 'CCTV 설치작업', '인터폰·출입통제설비 설치작업', '방송설비작업', '무선통신보조설비 설치작업', '통신설비 시험·검사작업']
         ];
-        // 2번·3번 드롭다운에는 공종 구분 없이 세 공종의 세부 공정 전체를 optgroup으로 넣어,
-        // 방문 시기마다 실제 진행 중인 세부 공정을 자유롭게 골라 쓸 수 있게 한다.
-        function buildProcessItemSelectOptions() {
-            ['p3_item_2_select', 'p3_item_3_select'].forEach(function (id) {
-                const sel = document.getElementById(id);
-                if (!sel) return;
-                sel.innerHTML = '<option value="">▾선택</option>';
-                P3_BOTTOM_LABELS.forEach(function (label, i) {
-                    const og = document.createElement('optgroup');
-                    og.label = label;
-                    PROCESS_DETAIL_LISTS[i].forEach(function (item) {
-                        const opt = document.createElement('option');
-                        opt.value = item;
-                        opt.textContent = item;
-                        og.appendChild(opt);
-                    });
-                    sel.appendChild(og);
-                });
-            });
-        }
         function applyProcessItemDefaults(idx) {
             const list = PROCESS_DETAIL_LISTS[idx];
             if (!list) return;
@@ -2339,20 +2611,69 @@
             setText('p3_item_4', '기타작업');
             syncP3Item(4);
             const sel2 = document.getElementById('p3_item_2_select');
-            if (sel2) sel2.value = list[0] || '';
+            if (sel2) sel2.textContent = list[0] || '▾선택';
             const sel3 = document.getElementById('p3_item_3_select');
-            if (sel3) sel3.value = list[1] || '';
+            if (sel3) sel3.textContent = list[1] || '▾선택';
         }
-        // 항목 2·3은 전체 공종 선택과 별개로, 칸별 드롭다운으로 개별 변경 가능 (예: 전기+통신 혼재 현장)
+        // 항목 2·3은 전체 공종 선택과 별개로, 칸별 목록에서 개별 변경 가능 (예: 전기+통신 혼재 현장)
         function applyProcessItemPreset(n, value) {
             if (!value) return;
             setText('p3_item_' + n, value);
             syncP3Item(n);
+            const trigger = document.getElementById('p3_item_' + n + '_select');
+            if (trigger) trigger.textContent = value;
         }
 
         const P3_BOTTOM_LABELS = ['소방공사', '전기설비', '통신공사'];
+        // 2페이지 "현공종" 선택 버튼에 쓰는 공종 목록 (표기는 현장에서 실제 쓰는 명칭에 맞춤)
+        const P2_MAIN_TYPE_OPTIONS = ['전기공사', '통신공사', '소방설비공사'];
         let lastP3BottomIdx = null;
-        buildProcessItemSelectOptions();
+
+        // ===== 3페이지 세부공정 항목(2·3번) / 2페이지 현공종·세부공종 선택 - 공용 큰 목록 모달 =====
+        let procPickerKind = null;   // 'p3item' | 'p2main' | 'p2sub'
+        let procPickerTarget = null; // p3item일 때 2 또는 3
+        let procPickerFlatList = [];
+        function openProcPickerModal(kind, target) {
+            procPickerKind = kind;
+            procPickerTarget = target;
+            document.getElementById('procPickerModal').style.display = 'flex';
+            renderProcPickerList();
+        }
+        function renderProcPickerList() {
+            const container = document.getElementById('procPickerContainer');
+            const titleEl = document.getElementById('procPickerTitle');
+            procPickerFlatList = [];
+            let html = '';
+            if (procPickerKind === 'p2main') {
+                titleEl.innerText = '현공종 선택';
+                procPickerFlatList = P2_MAIN_TYPE_OPTIONS.slice();
+                html = procPickerFlatList.map(function (item, idx) {
+                    return '<div class="preset-item" onclick="pickProcPickerItem(' + idx + ')">' + item + '</div>';
+                }).join('');
+            } else {
+                titleEl.innerText = (procPickerKind === 'p2sub') ? '세부공종 선택' : '세부 공정 선택';
+                P3_BOTTOM_LABELS.forEach(function (label, i) {
+                    html += '<div style="font-size:11px; font-weight:bold; color:#1a237e; margin:8px 0 5px;">' + label + '</div>';
+                    PROCESS_DETAIL_LISTS[i].forEach(function (item) {
+                        const idx = procPickerFlatList.length;
+                        procPickerFlatList.push(item);
+                        html += '<div class="preset-item" onclick="pickProcPickerItem(' + idx + ')">' + item + '</div>';
+                    });
+                });
+            }
+            container.innerHTML = html;
+        }
+        function pickProcPickerItem(idx) {
+            const value = procPickerFlatList[idx];
+            if (procPickerKind === 'p3item') {
+                applyProcessItemPreset(procPickerTarget, value);
+            } else if (procPickerKind === 'p2main') {
+                setText('p2_main_type', value);
+            } else if (procPickerKind === 'p2sub') {
+                setText('p2_sub_type', value);
+            }
+            closeModal('procPickerModal');
+        }
 
         let currentPhotoTarget = '';
         function triggerPhotoUpload(targetId) { currentPhotoTarget = targetId; document.getElementById('fileInput').click(); }
